@@ -1,8 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 import 'CustomTestButton.dart';
+import 'linuxapi/LinuxAPI.dart';
+import 'linuxapi/Login.dart';
+import 'linuxapi/LoginProfile.dart';
+import 'LoginPage.dart';
 
 void main() {
   runApp(const App());
@@ -18,106 +24,6 @@ class App extends StatelessWidget {
       theme: ThemeData.dark(),
       //themeMode: ThemeMode.system,
       home: const HomePage(),
-    );
-  }
-}
-
-class LeftDrawer extends StatefulWidget {
-  const LeftDrawer({Key? key}) : super(key: key);
-  @override
-  State<LeftDrawer> createState() => _LeftDrawerState();
-}
-
-class _LeftDrawerState extends State<LeftDrawer> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          height: 100,
-          child: Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Card(
-                          clipBehavior: Clip.antiAlias,
-                          child: Image.network(
-                              'https://p4.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg'),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Flex(
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Card(
-                                      shape: const StadiumBorder(
-                                          side: BorderSide(
-                                        style: BorderStyle.none,
-                                      )),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Text(
-                                          'VIP：无 剩余时间：0',
-                                          textScaleFactor: 1.2,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                    Card(
-                                      shape: const StadiumBorder(
-                                          side: BorderSide(
-                                        style: BorderStyle.none,
-                                      )),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Text(
-                                          '等级：7',
-                                          textScaleFactor: 1.2,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 0),
-                                child: Text(
-                                  "MCredbear",
-                                  textAlign: TextAlign.left,
-                                  textScaleFactor: 2,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
@@ -138,58 +44,110 @@ class _HomePageState extends State<HomePage> {
         child: Drawer(
           elevation: 4,
           child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
             children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Image.network(
-                      'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg'),
+                  Observer(
+                    builder: (_) => loginprofile.logined
+                        ? Image.network(loginprofile.backgroundUrl)
+                        : SizedBox(
+                            width: 200,
+                            height: 200,
+                            child: DecoratedBox(
+                                decoration:
+                                    BoxDecoration(color: Colors.black54)),
+                          ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Card(
-                        elevation: 5,
-                        shape: CircleBorder(),
-                        clipBehavior: Clip.antiAlias,
-                        child: Image.network(
-                          'https://p3.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg',
-                          width: 50,
-                          height: 50,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new LoginPage()));
+                        },
+                        splashFactory: NoSplash.splashFactory,
+                        highlightColor: Colors.transparent,
+                        child: Card(
+                          elevation: 5,
+                          shape: CircleBorder(),
+                          clipBehavior: Clip.antiAlias,
+                          child: Observer(
+                            builder: (_) => loginprofile.logined
+                                ? Image.network(
+                                    loginprofile.avatarUrl,
+                                    width: 50,
+                                    height: 50,
+                                  )
+                                : SizedBox(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '登录',
+                                          textScaleFactor: 1.3,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                          ),
                         ),
                       ),
-                      Text(
-                        'MCredbear',
-                        textScaleFactor: 1.8,
+                      Observer(
+                        builder: (_) => Text(
+                          loginprofile.nickname,
+                          textScaleFactor: 1.8,
+                        ),
                       ),
                       Row(
                         children: [
-                          Expanded(
-                              flex: 3,
-                              child: Text(
-                                'VIP: ',
-                                textAlign: TextAlign.right,
-                                textScaleFactor: 1.2,
-                              )),
-                          Expanded(
-                            flex: 1,
-                            child: UnconstrainedBox(
-                              child: SizedBox(
-                                width: 1.2,
-                                height: 20,
-                                child: DecoratedBox(
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
-                                ),
-                              ),
+                          Observer(
+                            builder: (_) => Expanded(
+                                flex: 3,
+                                child: loginprofile.logined
+                                    ? Text(
+                                        'VIP: ?',
+                                        textAlign: TextAlign.right,
+                                        textScaleFactor: 1.2,
+                                      )
+                                    : Container()),
+                          ),
+                          Observer(
+                            builder: (_) => Expanded(
+                              flex: 1,
+                              child: loginprofile.logined
+                                  ? UnconstrainedBox(
+                                      child: SizedBox(
+                                        width: 1.2,
+                                        height: 20,
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
                             ),
                           ),
-                          Expanded(
-                              flex: 3,
-                              child: Text(
-                                'Lv: 7',
-                                textAlign: TextAlign.left,
-                                textScaleFactor: 1.2,
-                              )),
+                          Observer(
+                            builder: (_) => Expanded(
+                                flex: 3,
+                                child: loginprofile.logined
+                                    ? Text(
+                                        'Lv: ?',
+                                        textAlign: TextAlign.left,
+                                        textScaleFactor: 1.2,
+                                      )
+                                    : Container()),
+                          ),
                         ],
                       )
                     ],
@@ -223,12 +181,10 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(24.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //spacing: 24,
                   children: [
                     InkWell(
                       onTap: () {},
                       splashFactory: NoSplash.splashFactory,
-                      //I don't know how to remove Boader's splash
                       borderRadius: BorderRadius.circular(4),
                       child: Column(
                         children: [
@@ -533,6 +489,7 @@ class _HomePageState extends State<HomePage> {
                     child: ListView(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                         InkWell(
                           onTap: () {},
@@ -619,6 +576,7 @@ class _HomePageState extends State<HomePage> {
                     child: ListView(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                         InkWell(
                           onTap: () {},
