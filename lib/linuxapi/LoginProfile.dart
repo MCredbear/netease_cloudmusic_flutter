@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:mobx/mobx.dart';
 
 part 'LoginProfile.g.dart';

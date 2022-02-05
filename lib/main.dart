@@ -3,11 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:netease_cloudmusic_flutter/linuxapi/RecordRecentSongProfile.dart';
 
 import 'CustomTestButton.dart';
 import 'linuxapi/LinuxAPI.dart';
 import 'linuxapi/Login.dart';
 import 'linuxapi/LoginProfile.dart';
+import 'linuxapi/RecordRecentSong.dart';
 import 'LoginPage.dart';
 
 void main() {
@@ -274,7 +276,10 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomTextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      recordrecentsongprofile.clearRecentSong;
+                      recordRecentSong(limit: "5");
+                    },
                     icon: const Icon(
                       Icons.keyboard_arrow_right_sharp,
                       size: 24,
@@ -303,147 +308,58 @@ class _HomePageState extends State<HomePage> {
                           child: Card(
                             elevation: 0,
                             clipBehavior: Clip.antiAlias,
-                            child: Image.network(
-                              'https://p4.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg',
-                              width: 40,
-                              height: 40,
+                            child: Observer(
+                              builder: (_) => Image.network(
+                                recordrecentsongprofile.recentSongs[0].coverUrl,
+                                width: 40,
+                                height: 40,
+                              ),
                             ),
                           ),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "一般男性脱粪系列",
-                              textScaleFactor: 1.2,
-                            ),
-                            Text("铃木悠太"),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    splashFactory: NoSplash.splashFactory,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Card(
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.network(
-                              'https://p4.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg',
-                              width: 40,
-                              height: 40,
-                            ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Observer(
+                                    builder: (_) => Text(
+                                      recordrecentsongprofile
+                                          .recentSongs[0].name,
+                                      textScaleFactor: 1.2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Observer(
+                                      builder: (_) => (recordrecentsongprofile
+                                                  .recentSongs[0].alias.length >
+                                              0)
+                                          ? Text(
+                                              "  (" +
+                                                  recordrecentsongprofile
+                                                      .recentSongs[0].alias[0] +
+                                                  ")",
+                                              textScaleFactor: 1.2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.white54),
+                                            )
+                                          : Container(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Observer(
+                                  builder: (_) => Text(
+                                        combineArtistsName(0),
+                                        overflow: TextOverflow.ellipsis,
+                                      )),
+                            ],
                           ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "一般男性脱粪系列",
-                              textScaleFactor: 1.2,
-                            ),
-                            Text("铃木悠太"),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    splashFactory: NoSplash.splashFactory,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Card(
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.network(
-                              'https://p4.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg',
-                              width: 40,
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "一般男性脱粪系列",
-                              textScaleFactor: 1.2,
-                            ),
-                            Text("铃木悠太"),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    splashFactory: NoSplash.splashFactory,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Card(
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.network(
-                              'https://p4.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg',
-                              width: 40,
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "一般男性脱粪系列",
-                              textScaleFactor: 1.2,
-                            ),
-                            Text("铃木悠太"),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    splashFactory: NoSplash.splashFactory,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Card(
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.network(
-                              'https://p4.music.126.net/8B-aaaDhCw_WYD8u-h3Vfg==/109951163124857862.jpg',
-                              width: 40,
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "一般男性脱粪系列",
-                              textScaleFactor: 1.2,
-                            ),
-                            Text("铃木悠太"),
-                          ],
                         )
                       ],
                     ),
