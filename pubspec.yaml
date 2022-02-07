@@ -36,7 +36,9 @@ dependencies:
   flutter_mobx: ^2.0.3
   dio: ^4.0.4
   dio_cookie_manager: ^2.0.0
+  dio_http_cache: ^0.3.0  
   path_provider: ^2.0.8 
+  cached_network_image: ^3.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -45,7 +47,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mobx_codegen: ^2.0.5
+  mobx_codegen: any
   build_runner: ^2.1.7
 
   # The "flutter_lints" package below contains a set of recommended lints to

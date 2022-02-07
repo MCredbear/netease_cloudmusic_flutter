@@ -11,8 +11,6 @@ import 'LinuxAPI.dart';
 import 'LoginProfile.dart';
 
 Future<void> loginCellphonePassword(String cellphone, String password) async {
-  cellphone = "13819254482";
-  password = "!hr2000?";
   String passwordmd5 =
       hex.encode(md5.convert(Utf8Encoder().convert(password)).bytes);
   String postdata =
@@ -21,7 +19,7 @@ Future<void> loginCellphonePassword(String cellphone, String password) async {
   Directory appDocDir = await getApplicationDocumentsDirectory();
   PersistCookieJar cookie = PersistCookieJar(
       ignoreExpires: true,
-      storage: FileStorage(appDocDir.path + "/cache/cookies"));
+      storage: FileStorage(appDocDir.path + "/../cache/cookies"));
   cookie.deleteAll();
   Dio dio = Dio(BaseOptions(headers: {
     "Cookie": "NMTID=; MUSIC_U=; __remember_me=true; os=pc",

@@ -3,13 +3,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:netease_cloudmusic_flutter/linuxapi/RecordRecentSongProfile.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'CustomTestButton.dart';
 import 'linuxapi/LinuxAPI.dart';
 import 'linuxapi/Login.dart';
 import 'linuxapi/LoginProfile.dart';
 import 'linuxapi/RecordRecentSong.dart';
+import 'package:netease_cloudmusic_flutter/linuxapi/RecordRecentSongProfile.dart';
+
 import 'LoginPage.dart';
 
 void main() {
@@ -53,7 +55,8 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Observer(
                     builder: (_) => loginprofile.logined
-                        ? Image.network(loginprofile.backgroundUrl)
+                        ? CachedNetworkImage(
+                            imageUrl: loginprofile.backgroundUrl)
                         : SizedBox(
                             width: 200,
                             height: 200,
@@ -80,8 +83,8 @@ class _HomePageState extends State<HomePage> {
                           clipBehavior: Clip.antiAlias,
                           child: Observer(
                             builder: (_) => loginprofile.logined
-                                ? Image.network(
-                                    loginprofile.avatarUrl,
+                                ? CachedNetworkImage(
+                                    imageUrl: loginprofile.avatarUrl,
                                     width: 50,
                                     height: 50,
                                   )
@@ -278,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                   CustomTextButton.icon(
                     onPressed: () {
                       recordrecentsongprofile.clearRecentSong;
-                      recordRecentSong(limit: "5");
+                      recordRecentSong(limit: "300");
                     },
                     icon: const Icon(
                       Icons.keyboard_arrow_right_sharp,
@@ -309,8 +312,9 @@ class _HomePageState extends State<HomePage> {
                             elevation: 0,
                             clipBehavior: Clip.antiAlias,
                             child: Observer(
-                              builder: (_) => Image.network(
-                                recordrecentsongprofile.recentSongs[0].coverUrl,
+                              builder: (_) => CachedNetworkImage(
+                                imageUrl: recordrecentsongprofile
+                                    .recentSongs[0].coverUrl,
                                 width: 40,
                                 height: 40,
                               ),
@@ -420,8 +424,9 @@ class _HomePageState extends State<HomePage> {
                                 child: Card(
                                   elevation: 0,
                                   clipBehavior: Clip.antiAlias,
-                                  child: Image.network(
-                                    'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg',
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg',
                                     width: 60,
                                     height: 60,
                                   ),
@@ -507,10 +512,15 @@ class _HomePageState extends State<HomePage> {
                                 child: Card(
                                   elevation: 0,
                                   clipBehavior: Clip.antiAlias,
-                                  child: Image.network(
-                                    'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg',
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg',
                                     width: 60,
                                     height: 60,
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress),
                                   ),
                                 ),
                               ),

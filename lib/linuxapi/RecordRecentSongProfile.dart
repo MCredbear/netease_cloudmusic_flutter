@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:mobx/mobx.dart';
 
-import 'RecordRecentSong.dart';
-
 part 'RecordRecentSongProfile.g.dart';
 
 final RecordRecentSongProfile recordrecentsongprofile =
