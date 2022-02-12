@@ -7,7 +7,7 @@ import 'package:mobx/mobx.dart';
 
 import 'linuxapi/LinuxAPI.dart';
 import 'linuxapi/Login.dart';
-import 'linuxapi/LoginProfile.dart';
+import 'linuxapi/UserProfileStore.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController phone = TextEditingController();

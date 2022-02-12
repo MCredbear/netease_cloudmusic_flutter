@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'LoginProfile.dart';
+part of 'UserProfileStore.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'LoginProfile.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LoginProfile on LoginProfileBase, Store {
-  final _$loginedAtom = Atom(name: 'LoginProfileBase.logined');
+mixin _$UserProfileStore on UserProfileStoreBase, Store {
+  final _$loginedAtom = Atom(name: 'UserProfileStoreBase.logined');
 
   @override
   bool get logined {
@@ -24,7 +24,7 @@ mixin _$LoginProfile on LoginProfileBase, Store {
     });
   }
 
-  final _$nicknameAtom = Atom(name: 'LoginProfileBase.nickname');
+  final _$nicknameAtom = Atom(name: 'UserProfileStoreBase.nickname');
 
   @override
   String get nickname {
@@ -39,7 +39,7 @@ mixin _$LoginProfile on LoginProfileBase, Store {
     });
   }
 
-  final _$avatarUrlAtom = Atom(name: 'LoginProfileBase.avatarUrl');
+  final _$avatarUrlAtom = Atom(name: 'UserProfileStoreBase.avatarUrl');
 
   @override
   String get avatarUrl {
@@ -54,7 +54,7 @@ mixin _$LoginProfile on LoginProfileBase, Store {
     });
   }
 
-  final _$backgroundUrlAtom = Atom(name: 'LoginProfileBase.backgroundUrl');
+  final _$backgroundUrlAtom = Atom(name: 'UserProfileStoreBase.backgroundUrl');
 
   @override
   String get backgroundUrl {
@@ -69,50 +69,50 @@ mixin _$LoginProfile on LoginProfileBase, Store {
     });
   }
 
-  final _$LoginProfileBaseActionController =
-      ActionController(name: 'LoginProfileBase');
+  final _$UserProfileStoreBaseActionController =
+      ActionController(name: 'UserProfileStoreBase');
 
   @override
   void setLogined(bool logined) {
-    final _$actionInfo = _$LoginProfileBaseActionController.startAction(
-        name: 'LoginProfileBase.setLogined');
+    final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
+        name: 'UserProfileStoreBase.setLogined');
     try {
       return super.setLogined(logined);
     } finally {
-      _$LoginProfileBaseActionController.endAction(_$actionInfo);
+      _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setNickname(String nickname) {
-    final _$actionInfo = _$LoginProfileBaseActionController.startAction(
-        name: 'LoginProfileBase.setNickname');
+    final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
+        name: 'UserProfileStoreBase.setNickname');
     try {
       return super.setNickname(nickname);
     } finally {
-      _$LoginProfileBaseActionController.endAction(_$actionInfo);
+      _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setAvatarUrl(String avatarUrl) {
-    final _$actionInfo = _$LoginProfileBaseActionController.startAction(
-        name: 'LoginProfileBase.setAvatarUrl');
+    final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
+        name: 'UserProfileStoreBase.setAvatarUrl');
     try {
       return super.setAvatarUrl(avatarUrl);
     } finally {
-      _$LoginProfileBaseActionController.endAction(_$actionInfo);
+      _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setBackgroundUrl(String backgroundUrl) {
-    final _$actionInfo = _$LoginProfileBaseActionController.startAction(
-        name: 'LoginProfileBase.setBackgroundUrl');
+    final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
+        name: 'UserProfileStoreBase.setBackgroundUrl');
     try {
       return super.setBackgroundUrl(backgroundUrl);
     } finally {
-      _$LoginProfileBaseActionController.endAction(_$actionInfo);
+      _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 

@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 import 'LinuxAPI.dart';
-import 'LoginProfile.dart';
+import 'UserAccount.dart';
 
 Future<void> loginCellphonePassword(String cellphone, String password) async {
   String passwordmd5 =
@@ -29,10 +29,12 @@ Future<void> loginCellphonePassword(String cellphone, String password) async {
   try {
     response = await dio.post("https://music.163.com/api/linux/forward",
         data: postdata);
+    userAccount(); // to get user info offline in the futrue
+    /*    
     loginprofile.setNickname(response.data['profile']['nickname']);
     loginprofile.setAvatarUrl(response.data['profile']['avatarUrl']);
     loginprofile.setBackgroundUrl(response.data['profile']['backgroundUrl']);
-    loginprofile.setLogined(true);
+    loginprofile.setLogined(true);*/
   } on DioError catch (e) {
     //error
   }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+//import 'dart:js';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -8,7 +10,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'CustomTestButton.dart';
 import 'linuxapi/LinuxAPI.dart';
 import 'linuxapi/Login.dart';
-import 'linuxapi/LoginProfile.dart';
+import 'linuxapi/UserAccount.dart';
+import 'linuxapi/UserProfileStore.dart';
 import 'linuxapi/RecordRecentSong.dart';
 import 'package:netease_cloudmusic_flutter/linuxapi/RecordRecentSongProfile.dart';
 
@@ -50,115 +53,7 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Observer(
-                    builder: (_) => loginprofile.logined
-                        ? CachedNetworkImage(
-                            imageUrl: loginprofile.backgroundUrl)
-                        : SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: DecoratedBox(
-                                decoration:
-                                    BoxDecoration(color: Colors.black54)),
-                          ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new LoginPage()));
-                        },
-                        splashFactory: NoSplash.splashFactory,
-                        highlightColor: Colors.transparent,
-                        child: Card(
-                          elevation: 5,
-                          shape: CircleBorder(),
-                          clipBehavior: Clip.antiAlias,
-                          child: Observer(
-                            builder: (_) => loginprofile.logined
-                                ? CachedNetworkImage(
-                                    imageUrl: loginprofile.avatarUrl,
-                                    width: 50,
-                                    height: 50,
-                                  )
-                                : SizedBox(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '登录',
-                                          textScaleFactor: 1.3,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                    width: 50,
-                                    height: 50,
-                                  ),
-                          ),
-                        ),
-                      ),
-                      Observer(
-                        builder: (_) => Text(
-                          loginprofile.nickname,
-                          textScaleFactor: 1.8,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Observer(
-                            builder: (_) => Expanded(
-                                flex: 3,
-                                child: loginprofile.logined
-                                    ? Text(
-                                        'VIP: ?',
-                                        textAlign: TextAlign.right,
-                                        textScaleFactor: 1.2,
-                                      )
-                                    : Container()),
-                          ),
-                          Observer(
-                            builder: (_) => Expanded(
-                              flex: 1,
-                              child: loginprofile.logined
-                                  ? UnconstrainedBox(
-                                      child: SizedBox(
-                                        width: 1.2,
-                                        height: 20,
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
-                            ),
-                          ),
-                          Observer(
-                            builder: (_) => Expanded(
-                                flex: 3,
-                                child: loginprofile.logined
-                                    ? Text(
-                                        'Lv: ?',
-                                        textAlign: TextAlign.left,
-                                        textScaleFactor: 1.2,
-                                      )
-                                    : Container()),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ],
-              ),
+              UserProfileWidget(),
             ],
           ),
         ),
@@ -315,6 +210,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (_) => CachedNetworkImage(
                                 imageUrl: recordrecentsongprofile
                                     .recentSongs[0].coverUrl,
+                                fit: BoxFit.fill,
                                 width: 40,
                                 height: 40,
                               ),
@@ -562,4 +458,130 @@ class _HomePageState extends State<HomePage> {
       )),
     );
   }
+}
+
+class _UserProfileWidgetState extends State<UserProfileWidget> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => userAccount());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Observer(
+          builder: (_) => userProfileStore.logined
+              ? CachedNetworkImage(imageUrl: userProfileStore.backgroundUrl)
+              : SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: DecoratedBox(
+                      decoration: BoxDecoration(color: Colors.black54)),
+                ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new LoginPage()));
+              },
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent,
+              child: Card(
+                elevation: 5,
+                shape: CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: Observer(
+                  builder: (_) => userProfileStore.logined
+                      ? CachedNetworkImage(
+                          imageUrl: userProfileStore.avatarUrl,
+                          width: 50,
+                          height: 50,
+                        )
+                      : SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '登录',
+                                textScaleFactor: 1.3,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          width: 50,
+                          height: 50,
+                        ),
+                ),
+              ),
+            ),
+            Observer(
+              builder: (_) => Text(
+                userProfileStore.nickname,
+                textScaleFactor: 1.8,
+              ),
+            ),
+            Row(
+              children: [
+                Observer(
+                  builder: (_) => Expanded(
+                      flex: 3,
+                      child: userProfileStore.logined
+                          ? Text(
+                              'VIP: ?',
+                              textAlign: TextAlign.right,
+                              textScaleFactor: 1.2,
+                            )
+                          : Container()),
+                ),
+                Observer(
+                  builder: (_) => Expanded(
+                    flex: 1,
+                    child: userProfileStore.logined
+                        ? UnconstrainedBox(
+                            child: SizedBox(
+                              width: 1.2,
+                              height: 20,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: Colors.white),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ),
+                ),
+                Observer(
+                  builder: (_) => Expanded(
+                      flex: 3,
+                      child: userProfileStore.logined
+                          ? Text(
+                              'Lv: ?',
+                              textAlign: TextAlign.left,
+                              textScaleFactor: 1.2,
+                            )
+                          : Container()),
+                ),
+              ],
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class UserProfileWidget extends StatefulWidget {
+  const UserProfileWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _UserProfileWidgetState();
 }

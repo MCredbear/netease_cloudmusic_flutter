@@ -1,12 +1,12 @@
 import 'package:mobx/mobx.dart';
 
-part 'LoginProfile.g.dart';
+part 'UserProfileStore.g.dart';
 
-final LoginProfile loginprofile = LoginProfile();
+final UserProfileStore userProfileStore = UserProfileStore();
 
-class LoginProfile = LoginProfileBase with _$LoginProfile;
+class UserProfileStore = UserProfileStoreBase with _$UserProfileStore;
 
-abstract class LoginProfileBase with Store {
+abstract class UserProfileStoreBase with Store {
   @observable
   bool logined = false;
   @action

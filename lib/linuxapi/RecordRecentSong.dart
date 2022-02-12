@@ -27,7 +27,8 @@ Future<void> recordRecentSong({String limit = "300"}) async {
   Response response;
   ;
   response = await dio.post("https://music.163.com/api/linux/forward",
-      data: postdata, options: buildCacheOptions(Duration(days: 114)));
+      data: postdata,
+      options: buildCacheOptions(Duration(days: 114), forceRefresh: true));
   List songs = response.data['data']['list'];
   for (var song in songs) {
     List artists = song['data']['ar'];

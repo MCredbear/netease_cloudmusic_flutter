@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 
 import 'linuxapi/LinuxAPI.dart';
 import 'linuxapi/Login.dart';
-import 'linuxapi/LoginProfile.dart';
+import 'linuxapi/UserProfileStore.dart';
 
 class LoginProfilePage extends StatelessWidget {
   @override
