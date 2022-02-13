@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:mobx/mobx.dart';
 
 import 'LinuxAPI.dart';
-import 'RecordRecentSongProfile.dart';
+import 'RecentSongsStore.dart';
 
 Future<void> recordRecentSong({String limit = "300"}) async {
   String postdata =
@@ -29,6 +29,7 @@ Future<void> recordRecentSong({String limit = "300"}) async {
   response = await dio.post("https://music.163.com/api/linux/forward",
       data: postdata,
       options: buildCacheOptions(Duration(days: 114), forceRefresh: true));
+  ObservableList<Song> _recentSongs = ObservableList();
   List songs = response.data['data']['list'];
   for (var song in songs) {
     List artists = song['data']['ar'];
@@ -56,7 +57,8 @@ Future<void> recordRecentSong({String limit = "300"}) async {
     if (data.containsKey('tns')) {
       alias_.add(data['tns'][0]); //我就不信这还能有俩值
     }
-    recordrecentsongprofile.addRecentSong(Song(song['data']['name'],
-        song['data']['id'], alias_, artists_, song['data']['al']['picUrl']));
+    _recentSongs.add(Song(song['data']['name'], song['data']['id'], alias_,
+        artists_, song['data']['al']['picUrl']));
   }
+  recentSongsStore.updateRecentSongs(_recentSongs);
 }

@@ -13,7 +13,7 @@ import 'linuxapi/Login.dart';
 import 'linuxapi/UserAccount.dart';
 import 'linuxapi/UserProfileStore.dart';
 import 'linuxapi/RecordRecentSong.dart';
-import 'package:netease_cloudmusic_flutter/linuxapi/RecordRecentSongProfile.dart';
+import 'package:netease_cloudmusic_flutter/linuxapi/RecentSongsStore.dart';
 
 import 'LoginPage.dart';
 
@@ -43,6 +43,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +180,6 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   CustomTextButton.icon(
                     onPressed: () {
-                      recordrecentsongprofile.clearRecentSong;
                       recordRecentSong(limit: "300");
                     },
                     icon: const Icon(
@@ -196,74 +200,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 4,
                   ),
-                  InkWell(
-                    onTap: () {},
-                    splashFactory: NoSplash.splashFactory,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Card(
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
-                            child: Observer(
-                              builder: (_) => CachedNetworkImage(
-                                imageUrl: recordrecentsongprofile
-                                    .recentSongs[0].coverUrl,
-                                fit: BoxFit.fill,
-                                width: 40,
-                                height: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Observer(
-                                    builder: (_) => Text(
-                                      recordrecentsongprofile
-                                          .recentSongs[0].name,
-                                      textScaleFactor: 1.2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Observer(
-                                      builder: (_) => (recordrecentsongprofile
-                                                  .recentSongs[0].alias.length >
-                                              0)
-                                          ? Text(
-                                              "  (" +
-                                                  recordrecentsongprofile
-                                                      .recentSongs[0].alias[0] +
-                                                  ")",
-                                              textScaleFactor: 1.2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  color: Colors.white54),
-                                            )
-                                          : Container(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Observer(
-                                  builder: (_) => Text(
-                                        combineArtistsName(0),
-                                        overflow: TextOverflow.ellipsis,
-                                      )),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  RecentSongsListView(),
                   SizedBox(
                     height: 4,
                   ),
@@ -460,11 +397,109 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class RecentSongsListView extends StatefulWidget {
+  const RecentSongsListView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<RecentSongsListView> createState() => _RecentSongsListViewState();
+}
+
+class _RecentSongsListViewState extends State<RecentSongsListView> {
+  @override
+  void initState() {
+    super.initState();
+    recordRecentSong(limit: "300");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: (recentSongsStore.recentSongs.length > 5)
+            ? 5
+            : recentSongsStore.recentSongs.length,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {},
+          splashFactory: NoSplash.splashFactory,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Card(
+                  elevation: 0,
+                  clipBehavior: Clip.antiAlias,
+                  child: Observer(
+                    builder: (_) => CachedNetworkImage(
+                      imageUrl: recentSongsStore.recentSongs[index].coverUrl,
+                      fit: BoxFit.fill,
+                      width: 40,
+                      height: 40,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Observer(
+                          builder: (_) => Text(
+                            recentSongsStore.recentSongs[index].name,
+                            textScaleFactor: 1.2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Expanded(
+                          child: Observer(
+                            builder: (_) => (recentSongsStore
+                                        .recentSongs[index].alias.length >
+                                    0)
+                                ? Text(
+                                    "  (" +
+                                        recentSongsStore
+                                            .recentSongs[index].alias[0] +
+                                        ")",
+                                    textScaleFactor: 1.2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(color: Colors.white54),
+                                  )
+                                : Container(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Observer(
+                        builder: (_) => Text(
+                              recentSongsStore.recentSongs[index]
+                                  .combinedArtistsName(),
+                              overflow: TextOverflow.ellipsis,
+                            )),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => userAccount());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      userAccount();
+    });
   }
 
   @override
