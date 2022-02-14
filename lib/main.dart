@@ -8,14 +8,14 @@ import 'package:mobx/mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'CustomTestButton.dart';
-import 'linuxapi/LinuxAPI.dart';
-import 'linuxapi/Login.dart';
-import 'linuxapi/UserAccount.dart';
-import 'linuxapi/UserProfileStore.dart';
-import 'linuxapi/RecordRecentSong.dart';
-import 'package:netease_cloudmusic_flutter/linuxapi/RecentSongsStore.dart';
+import 'linuxapi/linux_api.dart';
+import 'linuxapi/login.dart';
+import 'linuxapi/user_account.dart';
+import 'linuxapi/user_profile_store.dart';
+import 'linuxapi/record_recent_song.dart';
+import 'package:netease_cloudmusic_flutter/linuxapi/recent_songs_store.dart';
 
-import 'LoginPage.dart';
+import 'login_page.dart';
 
 void main() {
   runApp(const App());
@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    userAccount();
   }
 
   @override
