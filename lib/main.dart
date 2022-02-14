@@ -1,7 +1,3 @@
-import 'dart:ffi';
-//import 'dart:js';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -13,7 +9,9 @@ import 'linuxapi/login.dart';
 import 'linuxapi/user_account.dart';
 import 'linuxapi/user_profile_store.dart';
 import 'linuxapi/record_recent_song.dart';
-import 'package:netease_cloudmusic_flutter/linuxapi/recent_songs_store.dart';
+import 'linuxapi/recent_songs_store.dart';
+import 'linuxapi/user_playlist.dart';
+import 'linuxapi/user_playlists_store.dart';
 
 import 'login_page.dart';
 
@@ -58,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 4,
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
-            children: [
+            children: const [
               UserProfileWidget(),
             ],
           ),
@@ -76,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
           child: ListView(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
@@ -93,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                       splashFactory: NoSplash.splashFactory,
                       borderRadius: BorderRadius.circular(4),
                       child: Column(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.file_copy_rounded,
                             size: 40,
@@ -112,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                       splashFactory: NoSplash.splashFactory,
                       borderRadius: BorderRadius.circular(4),
                       child: Column(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.cloud,
                             size: 40,
@@ -131,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                       splashFactory: NoSplash.splashFactory,
                       borderRadius: BorderRadius.circular(4),
                       child: Column(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.file_download_outlined,
                             size: 40,
@@ -150,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                       splashFactory: NoSplash.splashFactory,
                       borderRadius: BorderRadius.circular(4),
                       child: Column(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.monetization_on,
                             size: 40,
@@ -188,28 +186,28 @@ class _HomePageState extends State<HomePage> {
                       size: 24,
                       color: Colors.white70,
                     ),
-                    label: Text(
+                    label: const Text(
                       ' 最近播放',
                       textScaleFactor: 1.5,
                       style: TextStyle(color: Colors.white70),
                     ),
                   ),
-                  Divider(
+                  const Divider(
                     height: 0,
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
-                  RecentSongsListView(),
-                  SizedBox(
+                  const RecentSongsListView(),
+                  const SizedBox(
                     height: 4,
                   ),
                 ],
               ),
             ),
           ),
-          Divider(
+          const Divider(
             thickness: 1,
           ),
           Padding(
@@ -221,80 +219,26 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         '   我的歌单',
                         textScaleFactor: 1.5,
                         style: TextStyle(color: Colors.white70),
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.list),
+                        icon: const Icon(Icons.list),
                         splashRadius: 20,
                         color: Colors.white70,
                       ),
                     ],
                   ),
-                  Divider(
+                  const Divider(
                     height: 0,
                     thickness: 1,
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          splashFactory: NoSplash.splashFactory,
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: Card(
-                                  elevation: 0,
-                                  clipBehavior: Clip.antiAlias,
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg',
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '♥我喜欢的音乐',
-                                          textScaleFactor: 1.5,
-                                        ),
-                                        Text('114514首'),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.more_vert),
-                                      splashRadius: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                    child: MyPlaylistListView(),
                   ),
                 ],
               ),
@@ -309,84 +253,26 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         '   收藏歌单',
                         textScaleFactor: 1.5,
                         style: TextStyle(color: Colors.white70),
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.list),
+                        icon: const Icon(Icons.list),
                         splashRadius: 20,
                         color: Colors.white70,
                       ),
                     ],
                   ),
-                  Divider(
+                  const Divider(
                     height: 0,
                     thickness: 1,
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          splashFactory: NoSplash.splashFactory,
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: Card(
-                                  elevation: 0,
-                                  clipBehavior: Clip.antiAlias,
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        'https://p3.music.126.net/hTceeVgvD7zBgy5kLeMr6w==/109951163124863182.jpg',
-                                    width: 60,
-                                    height: 60,
-                                    progressIndicatorBuilder: (context, url,
-                                            downloadProgress) =>
-                                        CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '豪俊金曲',
-                                          textScaleFactor: 1.5,
-                                        ),
-                                        Text('1919810首'),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.more_vert),
-                                      splashRadius: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                    child: SubscribedPlaylistListView(),
                   ),
                 ],
               ),
@@ -394,6 +280,182 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       )),
+    );
+  }
+}
+
+class MyPlaylistListView extends StatefulWidget {
+  const MyPlaylistListView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MyPlaylistListView> createState() => _MyPlaylistListViewState();
+}
+
+class _MyPlaylistListViewState extends State<MyPlaylistListView> {
+  @override
+  void initState() {
+    super.initState();
+    userPlaylist();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: userPlaylistsStore.myPlaylists.length,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {},
+          splashFactory: NoSplash.splashFactory,
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Card(
+                  elevation: 0,
+                  clipBehavior: Clip.antiAlias,
+                  child: Observer(
+                    builder: (_) => CachedNetworkImage(
+                      imageUrl: userPlaylistsStore.myPlaylists[index].coverUrl,
+                      width: 50,
+                      height: 50,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Observer(
+                            builder: (_) => Text(
+                              userPlaylistsStore.myPlaylists[index].name,
+                              textScaleFactor: 1.3,
+                            ),
+                          ),
+                          Observer(
+                            builder: (_) => Text(
+                              userPlaylistsStore.myPlaylists[index].trackCount +
+                                  "首",
+                              textScaleFactor: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.more_vert),
+                      splashRadius: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SubscribedPlaylistListView extends StatefulWidget {
+  const SubscribedPlaylistListView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<SubscribedPlaylistListView> createState() =>
+      _SubscribedPlaylistListViewState();
+}
+
+class _SubscribedPlaylistListViewState
+    extends State<SubscribedPlaylistListView> {
+  @override
+  void initState() {
+    super.initState();
+    //userPlaylist();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (_) => ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: userPlaylistsStore.myPlaylists.length,
+        itemBuilder: (context, index) => InkWell(
+          onTap: () {},
+          splashFactory: NoSplash.splashFactory,
+          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Card(
+                  elevation: 0,
+                  clipBehavior: Clip.antiAlias,
+                  child: Observer(
+                    builder: (_) => CachedNetworkImage(
+                      imageUrl: userPlaylistsStore
+                          .subscribedPlaylists[index].coverUrl,
+                      width: 50,
+                      height: 50,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Observer(
+                            builder: (_) => Text(
+                              userPlaylistsStore
+                                  .subscribedPlaylists[index].name,
+                              overflow: TextOverflow.ellipsis,
+                              textScaleFactor: 1.3,
+                            ),
+                          ),
+                          Observer(
+                            builder: (_) => Text(
+                              userPlaylistsStore
+                                      .subscribedPlaylists[index].trackCount +
+                                  "首",
+                              textScaleFactor: 1.2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.more_vert),
+                      splashRadius: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -418,7 +480,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: (recentSongsStore.recentSongs.length > 5)
             ? 5
@@ -461,8 +523,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                         Expanded(
                           child: Observer(
                             builder: (_) => (recentSongsStore
-                                        .recentSongs[index].alias.length >
-                                    0)
+                                    .recentSongs[index].alias.isNotEmpty)
                                 ? Text(
                                     "  (" +
                                         recentSongsStore
@@ -470,7 +531,8 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                                         ")",
                                     textScaleFactor: 1.2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: Colors.white54),
+                                    style:
+                                        const TextStyle(color: Colors.white54),
                                   )
                                 : Container(),
                           ),
@@ -511,7 +573,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         Observer(
           builder: (_) => userProfileStore.logined
               ? CachedNetworkImage(imageUrl: userProfileStore.backgroundUrl)
-              : SizedBox(
+              : const SizedBox(
                   width: 200,
                   height: 200,
                   child: DecoratedBox(
@@ -523,16 +585,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
           children: [
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new LoginPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
               splashFactory: NoSplash.splashFactory,
               highlightColor: Colors.transparent,
               child: Card(
                 elevation: 5,
-                shape: CircleBorder(),
+                shape: const CircleBorder(),
                 clipBehavior: Clip.antiAlias,
                 child: Observer(
                   builder: (_) => userProfileStore.logined
@@ -544,7 +604,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       : SizedBox(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Text(
                                 '登录',
                                 textScaleFactor: 1.3,
@@ -570,7 +630,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   builder: (_) => Expanded(
                       flex: 3,
                       child: userProfileStore.logined
-                          ? Text(
+                          ? const Text(
                               'VIP: ?',
                               textAlign: TextAlign.right,
                               textScaleFactor: 1.2,
@@ -581,7 +641,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   builder: (_) => Expanded(
                     flex: 1,
                     child: userProfileStore.logined
-                        ? UnconstrainedBox(
+                        ? const UnconstrainedBox(
                             child: SizedBox(
                               width: 1.2,
                               height: 20,
@@ -597,7 +657,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   builder: (_) => Expanded(
                       flex: 3,
                       child: userProfileStore.logined
-                          ? Text(
+                          ? const Text(
                               'Lv: ?',
                               textAlign: TextAlign.left,
                               textScaleFactor: 1.2,

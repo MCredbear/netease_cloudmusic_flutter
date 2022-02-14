@@ -1,22 +1,18 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 
-import 'linuxapi/linux_api.dart';
 import 'linuxapi/login.dart';
-import 'linuxapi/user_profile_store.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  LoginPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('登录'),
+        title: const Text('登录'),
       ),
       body: Row(
         children: [
@@ -32,13 +28,13 @@ class LoginPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       DropdownButton(
-                          style: TextStyle(fontSize: 24),
-                          hint: DropdownMenuItem(
+                          style: const TextStyle(fontSize: 24),
+                          hint: const DropdownMenuItem(
                               child: Text(
                                 '手机号&密码登录',
                               ),
                               value: 1),
-                          items: [
+                          items: const [
                             DropdownMenuItem(
                                 child: Text(
                                   '手机号&密码登录',
@@ -48,7 +44,7 @@ class LoginPage extends StatelessWidget {
                           onChanged: (value) {}),
                       TextField(
                         controller: phone,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "手机号",
                         ),
                         inputFormatters: [
@@ -59,7 +55,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       TextField(
                         controller: password,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "密码",
                         ),
                       ),
@@ -73,7 +69,7 @@ class LoginPage extends StatelessWidget {
                             loginCellphonePassword(phone.text, password.text);
                             Navigator.pop(context);
                           },
-                          child: Text('登录'),
+                          child: const Text('登录'),
                         ),
                       )
                     ],

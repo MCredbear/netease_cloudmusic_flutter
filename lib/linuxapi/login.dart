@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
@@ -12,7 +14,7 @@ import 'user_account.dart';
 
 Future<void> loginCellphonePassword(String cellphone, String password) async {
   String passwordmd5 =
-      hex.encode(md5.convert(Utf8Encoder().convert(password)).bytes);
+      hex.encode(md5.convert(const Utf8Encoder().convert(password)).bytes);
   String postdata =
       '{"method":"POST","url":"https://music.163.com/api/login/cellphone","params":{"phone":"$cellphone","countrycode":"86","password":"$passwordmd5","rememberLogin":"true"}}';
   postdata = linuxAPI(postdata);

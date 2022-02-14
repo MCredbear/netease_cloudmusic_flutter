@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -22,13 +24,13 @@ Future<void> recordRecentSong({String limit = "300"}) async {
   Dio dio = Dio(BaseOptions(contentType: "application/x-www-form-urlencoded"));
   dio.interceptors.add(CookieManager(cookie));
   dio.interceptors.add(
-      DioCacheManager(CacheConfig(defaultMaxAge: Duration(days: 114)))
+      DioCacheManager(CacheConfig(defaultMaxAge: const Duration(days: 114)))
           .interceptor);
   Response response;
-  ;
   response = await dio.post("https://music.163.com/api/linux/forward",
       data: postdata,
-      options: buildCacheOptions(Duration(days: 114), forceRefresh: true));
+      options:
+          buildCacheOptions(const Duration(days: 114), forceRefresh: true));
   ObservableList<Song> _recentSongs = ObservableList();
   List songs = response.data['data']['list'];
   for (var song in songs) {

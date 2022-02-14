@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -31,11 +29,17 @@ class Playlist {
   String description;
   String trackCount;
   String playCount;
+  String creatorNickName;
+  String creatorID;
+  String creatorAvatarUrl;
   Playlist(
       @required this.name,
       @required this.id,
       @required this.coverUrl,
       @required this.description,
       @required this.trackCount,
-      @required this.playCount);
+      @required this.playCount,
+      @required this.creatorNickName,
+      @required this.creatorID,
+      @required this.creatorAvatarUrl);
 }

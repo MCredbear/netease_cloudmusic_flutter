@@ -34,7 +34,9 @@ class Song {
   ObservableList<Artist> artists;
   String combinedArtistsName() {
     String text = artists[0].name;
-    for (int i = 1; i < artists.length; i++) text += "/" + artists[i].name;
+    for (int i = 1; i < artists.length; i++) {
+      text += "/" + artists[i].name;
+    }
     return text;
   }
 
@@ -52,5 +54,5 @@ class Artist {
   String name;
   String id;
   ObservableList alias;
-  Artist(@required this.name, @required this.id, @required this.alias) {}
+  Artist(@required this.name, @required this.id, @required this.alias);
 }

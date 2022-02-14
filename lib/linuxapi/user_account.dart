@@ -1,3 +1,5 @@
+// ignore_for_file: unused_catch_clause
+
 import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:dio/dio.dart';
@@ -21,14 +23,15 @@ Future<void> userAccount() async {
   Dio dio = Dio(BaseOptions(contentType: "application/x-www-form-urlencoded"));
   dio.interceptors.add(CookieManager(cookie));
   dio.interceptors.add(
-      DioCacheManager(CacheConfig(defaultMaxAge: Duration(days: 114)))
+      DioCacheManager(CacheConfig(defaultMaxAge: const Duration(days: 114)))
           .interceptor);
   Response response;
   try {
     response = await dio.post("https://music.163.com/api/linux/forward",
         data: postdata,
-        options: buildCacheOptions(Duration(days: 114), forceRefresh: true));
-    userProfileStore.setID(response.data['profile']['userID'].toString());
+        options:
+            buildCacheOptions(const Duration(days: 114), forceRefresh: true));
+    userProfileStore.setID(response.data['profile']['userId'].toString());
     userProfileStore.setNickname(response.data['profile']['nickname']);
     userProfileStore.setAvatarUrl(response.data['profile']['avatarUrl']);
     userProfileStore
