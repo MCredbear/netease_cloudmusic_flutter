@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: file_names, unused_import, unnecessary_import, curly_braces_in_flow_control_structures, unnecessary_null_comparison, unused_local_variable
+
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 

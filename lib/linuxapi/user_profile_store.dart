@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 
-part 'UserProfileStore.g.dart';
+part 'user_profile_store.g.dart';
 
 final UserProfileStore userProfileStore = UserProfileStore();
 
@@ -12,6 +12,13 @@ abstract class UserProfileStoreBase with Store {
   @action
   void setLogined(bool logined) {
     this.logined = logined;
+  }
+
+  @observable
+  String id = '';
+  @action
+  setID(String id) {
+    this.id = id;
   }
 
   @observable

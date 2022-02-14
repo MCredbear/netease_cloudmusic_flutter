@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'UserProfileStore.dart';
+part of 'user_profile_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -21,6 +21,21 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
   set logined(bool value) {
     _$loginedAtom.reportWrite(value, super.logined, () {
       super.logined = value;
+    });
+  }
+
+  final _$idAtom = Atom(name: 'UserProfileStoreBase.id');
+
+  @override
+  String get id {
+    _$idAtom.reportRead();
+    return super.id;
+  }
+
+  @override
+  set id(String value) {
+    _$idAtom.reportWrite(value, super.id, () {
+      super.id = value;
     });
   }
 
@@ -84,6 +99,17 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
   }
 
   @override
+  dynamic setID(String id) {
+    final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
+        name: 'UserProfileStoreBase.setID');
+    try {
+      return super.setID(id);
+    } finally {
+      _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setNickname(String nickname) {
     final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
         name: 'UserProfileStoreBase.setNickname');
@@ -120,6 +146,7 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
   String toString() {
     return '''
 logined: ${logined},
+id: ${id},
 nickname: ${nickname},
 avatarUrl: ${avatarUrl},
 backgroundUrl: ${backgroundUrl}

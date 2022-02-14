@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mobx/mobx.dart';
 
-part 'RecentSongsStore.g.dart';
+part 'recent_songs_store.g.dart';
 
 final RecentSongsStore recentSongsStore = RecentSongsStore();
 
@@ -29,7 +29,7 @@ abstract class RecentSongsStoreBase with Store {
 
 class Song {
   String name;
-  int id;
+  String id;
   ObservableList alias;
   ObservableList<Artist> artists;
   String combinedArtistsName() {
@@ -50,7 +50,7 @@ class Song {
 
 class Artist {
   String name;
-  int id;
+  String id;
   ObservableList alias;
   Artist(@required this.name, @required this.id, @required this.alias) {}
 }

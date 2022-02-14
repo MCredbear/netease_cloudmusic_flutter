@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'RecentSongsStore.dart';
+part of 'recent_songs_store.dart';
 
 // **************************************************************************
 // StoreGenerator
