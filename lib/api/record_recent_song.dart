@@ -1,36 +1,50 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:mobx/mobx.dart';
 
 import 'linux_api.dart';
-import '../stores/recent_songs_store.dart';
 
 Future<void> recordRecentSong({String limit = "300"}) async {
-  String postdata =
-      '{"method":"POST","url":"https://music.163.com/api/play-record/song/list","params":{"limit":"$limit"}}';
-  postdata = linuxAPI(postdata);
+  String postData = '''
+    {
+    "method":"POST",
+    "url":"https://music.163.com/api/play-record/song/list",
+    "params":{
+      "limit":"$limit"
+      }
+    }
+  ''';
+  postData = neLinuxAPI(postData);
+
   Directory appDocDir = await getApplicationDocumentsDirectory();
+
   PersistCookieJar cookie = PersistCookieJar(
-      ignoreExpires: true,
-      storage: FileStorage(appDocDir.path + "/../cache/cookies"));
-  Dio dio = Dio(BaseOptions(contentType: "application/x-www-form-urlencoded"));
-  dio.interceptors.add(CookieManager(cookie));
+    ignoreExpires: true,
+    storage: FileStorage(appDocDir.path + "/../cache/cookies"),
+  );
+  Dio dio = Dio(
+    BaseOptions(contentType: "application/x-www-form-urlencoded"),
+  );
   dio.interceptors.add(
-      DioCacheManager(CacheConfig(defaultMaxAge: const Duration(days: 114)))
-          .interceptor);
-  Response response;
-  response = await dio.post("https://music.163.com/api/linux/forward",
-      data: postdata,
-      options:
-          buildCacheOptions(const Duration(days: 114), forceRefresh: true));
+    CookieManager(cookie),
+  );
+  dio.interceptors.add(
+    DioCacheManager(
+      CacheConfig(defaultMaxAge: const Duration(days: 114)),
+    ).interceptor,
+  );
+  Response response = await dio.post(
+    "https://music.163.com/api/linux/forward",
+    data: postData,
+    options: buildCacheOptions(const Duration(days: 114), forceRefresh: true),
+  );
   ObservableList<Song> _recentSongs = ObservableList();
   List songs = response.data['data']['list'];
   for (var song in songs) {
@@ -63,5 +77,5 @@ Future<void> recordRecentSong({String limit = "300"}) async {
     _recentSongs.add(Song(song['data']['name'], song['data']['id'].toString(),
         alias_, artists_, song['data']['al']['picUrl']));
   }
-  recentSongsStore.updateRecentSongs(_recentSongs);
+  storeRecentSongs.updateRecentSongs(_recentSongs);
 }
