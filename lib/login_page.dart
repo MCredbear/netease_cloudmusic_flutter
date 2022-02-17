@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:netease_cloudmusic_flutter/api/login.dart';
 
-import 'linuxapi/login.dart';
-
+// ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -63,8 +63,10 @@ class LoginPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.grey.shade800)),
+                            backgroundColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.grey.shade800,
+                            ),
+                          ),
                           onPressed: () {
                             loginCellphonePassword(phone.text, password.text);
                             Navigator.pop(context);

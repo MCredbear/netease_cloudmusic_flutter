@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import 'CustomTestButton.dart';
-import 'linuxapi/linux_api.dart';
-import 'linuxapi/login.dart';
-import 'linuxapi/user_account.dart';
-import 'linuxapi/user_profile_store.dart';
-import 'linuxapi/record_recent_song.dart';
-import 'linuxapi/recent_songs_store.dart';
-import 'linuxapi/user_playlist.dart';
-import 'linuxapi/user_playlists_store.dart';
+import 'package:netease_cloudmusic_flutter/widgets/CustomTestButton.dart';
+import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
+import 'package:netease_cloudmusic_flutter/api/user_account.dart';
+import 'package:netease_cloudmusic_flutter/api/user_playlist.dart';
+import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
+import 'package:netease_cloudmusic_flutter/stores/user_playlists_store.dart';
+import 'package:netease_cloudmusic_flutter/stores/user_profile_store.dart';
 
 import 'login_page.dart';
 
@@ -236,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                     height: 0,
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: double.infinity,
                     child: MyPlaylistListView(),
                   ),
@@ -270,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                     height: 0,
                     thickness: 1,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: double.infinity,
                     child: SubscribedPlaylistListView(),
                   ),
@@ -307,7 +303,7 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: userPlaylistsStore.myPlaylists.length,
+        itemCount: storeUserPlaylists.myPlaylists.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
@@ -323,7 +319,7 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
                   clipBehavior: Clip.antiAlias,
                   child: Observer(
                     builder: (_) => CachedNetworkImage(
-                      imageUrl: userPlaylistsStore.myPlaylists[index].coverUrl,
+                      imageUrl: storeUserPlaylists.myPlaylists[index].coverUrl,
                       width: 50,
                       height: 50,
                     ),
@@ -339,13 +335,13 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
                         children: [
                           Observer(
                             builder: (_) => Text(
-                              userPlaylistsStore.myPlaylists[index].name,
+                              storeUserPlaylists.myPlaylists[index].name,
                               textScaleFactor: 1.3,
                             ),
                           ),
                           Observer(
                             builder: (_) => Text(
-                              userPlaylistsStore.myPlaylists[index].trackCount +
+                              storeUserPlaylists.myPlaylists[index].trackCount +
                                   "首",
                               textScaleFactor: 1.2,
                             ),
@@ -394,7 +390,7 @@ class _SubscribedPlaylistListViewState
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: userPlaylistsStore.myPlaylists.length,
+        itemCount: storeUserPlaylists.myPlaylists.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
@@ -410,7 +406,7 @@ class _SubscribedPlaylistListViewState
                   clipBehavior: Clip.antiAlias,
                   child: Observer(
                     builder: (_) => CachedNetworkImage(
-                      imageUrl: userPlaylistsStore
+                      imageUrl: storeUserPlaylists
                           .subscribedPlaylists[index].coverUrl,
                       width: 50,
                       height: 50,
@@ -427,7 +423,7 @@ class _SubscribedPlaylistListViewState
                         children: [
                           Observer(
                             builder: (_) => Text(
-                              userPlaylistsStore
+                              storeUserPlaylists
                                   .subscribedPlaylists[index].name,
                               overflow: TextOverflow.ellipsis,
                               textScaleFactor: 1.3,
@@ -435,7 +431,7 @@ class _SubscribedPlaylistListViewState
                           ),
                           Observer(
                             builder: (_) => Text(
-                              userPlaylistsStore
+                              storeUserPlaylists
                                       .subscribedPlaylists[index].trackCount +
                                   "首",
                               textScaleFactor: 1.2,
@@ -482,9 +478,9 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
       builder: (_) => ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: (recentSongsStore.recentSongs.length > 5)
+        itemCount: (storeRecentSongs.recentSongs.length > 5)
             ? 5
-            : recentSongsStore.recentSongs.length,
+            : storeRecentSongs.recentSongs.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
@@ -497,7 +493,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                   clipBehavior: Clip.antiAlias,
                   child: Observer(
                     builder: (_) => CachedNetworkImage(
-                      imageUrl: recentSongsStore.recentSongs[index].coverUrl,
+                      imageUrl: storeRecentSongs.recentSongs[index].coverUrl,
                       fit: BoxFit.fill,
                       width: 40,
                       height: 40,
@@ -515,18 +511,18 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                       children: [
                         Observer(
                           builder: (_) => Text(
-                            recentSongsStore.recentSongs[index].name,
+                            storeRecentSongs.recentSongs[index].name,
                             textScaleFactor: 1.2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Expanded(
                           child: Observer(
-                            builder: (_) => (recentSongsStore
+                            builder: (_) => (storeRecentSongs
                                     .recentSongs[index].alias.isNotEmpty)
                                 ? Text(
                                     "  (" +
-                                        recentSongsStore
+                                        storeRecentSongs
                                             .recentSongs[index].alias[0] +
                                         ")",
                                     textScaleFactor: 1.2,
@@ -541,7 +537,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                     ),
                     Observer(
                         builder: (_) => Text(
-                              recentSongsStore.recentSongs[index]
+                              storeRecentSongs.recentSongs[index]
                                   .combinedArtistsName(),
                               overflow: TextOverflow.ellipsis,
                             )),
@@ -560,7 +556,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       userAccount();
     });
   }
@@ -571,8 +567,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       alignment: Alignment.center,
       children: [
         Observer(
-          builder: (_) => userProfileStore.logined
-              ? CachedNetworkImage(imageUrl: userProfileStore.backgroundUrl)
+          builder: (_) => storeUserProfile.loginStatus
+              ? CachedNetworkImage(imageUrl: storeUserProfile.backgroundUrl)
               : const SizedBox(
                   width: 200,
                   height: 200,
@@ -595,9 +591,9 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 shape: const CircleBorder(),
                 clipBehavior: Clip.antiAlias,
                 child: Observer(
-                  builder: (_) => userProfileStore.logined
+                  builder: (_) => storeUserProfile.loginStatus
                       ? CachedNetworkImage(
-                          imageUrl: userProfileStore.avatarUrl,
+                          imageUrl: storeUserProfile.avatarUrl,
                           width: 50,
                           height: 50,
                         )
@@ -620,7 +616,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
             ),
             Observer(
               builder: (_) => Text(
-                userProfileStore.nickname,
+                storeUserProfile.nickname,
                 textScaleFactor: 1.8,
               ),
             ),
@@ -629,7 +625,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 Observer(
                   builder: (_) => Expanded(
                       flex: 3,
-                      child: userProfileStore.logined
+                      child: storeUserProfile.loginStatus
                           ? const Text(
                               'VIP: ?',
                               textAlign: TextAlign.right,
@@ -640,7 +636,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 Observer(
                   builder: (_) => Expanded(
                     flex: 1,
-                    child: userProfileStore.logined
+                    child: storeUserProfile.loginStatus
                         ? const UnconstrainedBox(
                             child: SizedBox(
                               width: 1.2,
@@ -656,7 +652,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 Observer(
                   builder: (_) => Expanded(
                       flex: 3,
-                      child: userProfileStore.logined
+                      child: storeUserProfile.loginStatus
                           ? const Text(
                               'Lv: ?',
                               textAlign: TextAlign.left,
