@@ -567,7 +567,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       alignment: Alignment.center,
       children: [
         Observer(
-          builder: (_) => storeUserProfile.logined
+          builder: (_) => storeUserProfile.loginStatus
               ? CachedNetworkImage(imageUrl: storeUserProfile.backgroundUrl)
               : const SizedBox(
                   width: 200,
@@ -591,7 +591,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 shape: const CircleBorder(),
                 clipBehavior: Clip.antiAlias,
                 child: Observer(
-                  builder: (_) => storeUserProfile.logined
+                  builder: (_) => storeUserProfile.loginStatus
                       ? CachedNetworkImage(
                           imageUrl: storeUserProfile.avatarUrl,
                           width: 50,
@@ -625,7 +625,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 Observer(
                   builder: (_) => Expanded(
                       flex: 3,
-                      child: storeUserProfile.logined
+                      child: storeUserProfile.loginStatus
                           ? const Text(
                               'VIP: ?',
                               textAlign: TextAlign.right,
@@ -636,7 +636,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 Observer(
                   builder: (_) => Expanded(
                     flex: 1,
-                    child: storeUserProfile.logined
+                    child: storeUserProfile.loginStatus
                         ? const UnconstrainedBox(
                             child: SizedBox(
                               width: 1.2,
@@ -652,7 +652,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                 Observer(
                   builder: (_) => Expanded(
                       flex: 3,
-                      child: storeUserProfile.logined
+                      child: storeUserProfile.loginStatus
                           ? const Text(
                               'Lv: ?',
                               textAlign: TextAlign.left,

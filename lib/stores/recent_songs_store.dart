@@ -11,20 +11,15 @@ class RecentSongsStore = RecentSongsStoreBase with _$RecentSongsStore;
 abstract class RecentSongsStoreBase with Store {
   @observable
   ObservableList<Song> recentSongs = ObservableList();
-  @action
-  void updateRecentSongs(ObservableList<Song> songs) {
-    recentSongs = songs;
-  }
 
   @action
-  void removeRecentSong(int index) {
-    recentSongs.removeAt(index);
-  }
+  void updateRecentSongs(ObservableList<Song> songs) => recentSongs = songs;
 
   @action
-  void clearRecentSongs() {
-    recentSongs.clear();
-  }
+  void removeRecentSong(int index) => recentSongs.removeAt(index);
+
+  @action
+  void clearRecentSongs() => recentSongs.clear();
 }
 
 class Song {

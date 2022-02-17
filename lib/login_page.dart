@@ -63,8 +63,10 @@ class LoginPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.grey.shade800)),
+                            backgroundColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.grey.shade800,
+                            ),
+                          ),
                           onPressed: () {
                             loginCellphonePassword(phone.text, password.text);
                             Navigator.pop(context);

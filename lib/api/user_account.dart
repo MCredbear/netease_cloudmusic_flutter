@@ -40,6 +40,11 @@ Future<void> userAccount() async {
       data: postData,
       options: buildCacheOptions(const Duration(days: 114), forceRefresh: true),
     );
+
+    if (response.statusCode != 200) {
+      return;
+    }
+
     storeUserProfile.setID(response.data['profile']['userId'].toString());
     storeUserProfile.setNickname(response.data['profile']['nickname']);
     storeUserProfile.setAvatarUrl(response.data['profile']['avatarUrl']);

@@ -9,18 +9,18 @@ part of 'user_profile_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserProfileStore on UserProfileStoreBase, Store {
-  final _$loginedAtom = Atom(name: 'UserProfileStoreBase.logined');
+  final _$loginStatusAtom = Atom(name: 'UserProfileStoreBase.loginStatus');
 
   @override
-  bool get logined {
-    _$loginedAtom.reportRead();
-    return super.logined;
+  bool get loginStatus {
+    _$loginStatusAtom.reportRead();
+    return super.loginStatus;
   }
 
   @override
-  set logined(bool value) {
-    _$loginedAtom.reportWrite(value, super.logined, () {
-      super.logined = value;
+  set loginStatus(bool value) {
+    _$loginStatusAtom.reportWrite(value, super.loginStatus, () {
+      super.loginStatus = value;
     });
   }
 
@@ -88,11 +88,11 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
       ActionController(name: 'UserProfileStoreBase');
 
   @override
-  void setLoginStatus(bool logined) {
+  void setLoginStatus(bool loginStatus) {
     final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
         name: 'UserProfileStoreBase.setLoginStatus');
     try {
-      return super.setLoginStatus(logined);
+      return super.setLoginStatus(loginStatus);
     } finally {
       _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -145,7 +145,7 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
   @override
   String toString() {
     return '''
-logined: ${logined},
+loginStatus: ${loginStatus},
 id: ${id},
 nickname: ${nickname},
 avatarUrl: ${avatarUrl},
