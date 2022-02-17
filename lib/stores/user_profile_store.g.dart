@@ -88,11 +88,11 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
       ActionController(name: 'UserProfileStoreBase');
 
   @override
-  void setLogined(bool logined) {
+  void setLoginStatus(bool logined) {
     final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
-        name: 'UserProfileStoreBase.setLogined');
+        name: 'UserProfileStoreBase.setLoginStatus');
     try {
-      return super.setLogined(logined);
+      return super.setLoginStatus(logined);
     } finally {
       _$UserProfileStoreBaseActionController.endAction(_$actionInfo);
     }

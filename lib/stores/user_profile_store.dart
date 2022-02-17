@@ -2,7 +2,7 @@ import 'package:mobx/mobx.dart';
 
 part 'user_profile_store.g.dart';
 
-final UserProfileStore userProfileStore = UserProfileStore();
+final UserProfileStore storeUserProfile = UserProfileStore();
 
 class UserProfileStore = UserProfileStoreBase with _$UserProfileStore;
 
@@ -10,7 +10,7 @@ abstract class UserProfileStoreBase with Store {
   @observable
   bool logined = false;
   @action
-  void setLogined(bool logined) {
+  void setLoginStatus(bool logined) {
     this.logined = logined;
   }
 

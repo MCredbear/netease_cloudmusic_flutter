@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 
 part 'user_playlists_store.g.dart';
 
-final UserPlaylistsStore userPlaylistsStore = UserPlaylistsStore();
+final UserPlaylistsStore storeUserPlaylists = UserPlaylistsStore();
 
 class UserPlaylistsStore = UserPlaylistsStoreBase with _$UserPlaylistsStore;
 
@@ -15,7 +15,7 @@ abstract class UserPlaylistsStoreBase with Store {
   ObservableList<Playlist> subscribedPlaylists = ObservableList();
 
   @action
-  void updataPlaylists(ObservableList<Playlist> myPlaylists,
+  void updatePlaylists(ObservableList<Playlist> myPlaylists,
       ObservableList<Playlist> subscribedPlaylists) {
     this.myPlaylists = myPlaylists;
     this.subscribedPlaylists = subscribedPlaylists;

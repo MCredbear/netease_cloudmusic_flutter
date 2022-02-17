@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: invalid_required_positional_param
 
 import 'package:mobx/mobx.dart';
 
 part 'recent_songs_store.g.dart';
 
-final RecentSongsStore recentSongsStore = RecentSongsStore();
+final RecentSongsStore storeRecentSongs = RecentSongsStore();
 
 class RecentSongsStore = RecentSongsStoreBase with _$RecentSongsStore;
 
@@ -42,11 +42,11 @@ class Song {
 
   String coverUrl;
   Song(
-    @required this.name,
-    @required this.id,
-    @required this.alias,
-    @required this.artists,
-    @required this.coverUrl,
+    this.name,
+    this.id,
+    this.alias,
+    this.artists,
+    this.coverUrl,
   );
 }
 
@@ -54,5 +54,9 @@ class Artist {
   String name;
   String id;
   ObservableList alias;
-  Artist(@required this.name, @required this.id, @required this.alias);
+  Artist(
+    this.name,
+    this.id,
+    this.alias,
+  );
 }

@@ -44,12 +44,12 @@ mixin _$UserPlaylistsStore on UserPlaylistsStoreBase, Store {
       ActionController(name: 'UserPlaylistsStoreBase');
 
   @override
-  void updataPlaylists(ObservableList<Playlist> myPlaylists,
+  void updatePlaylists(ObservableList<Playlist> myPlaylists,
       ObservableList<Playlist> subscribedPlaylists) {
     final _$actionInfo = _$UserPlaylistsStoreBaseActionController.startAction(
-        name: 'UserPlaylistsStoreBase.updataPlaylists');
+        name: 'UserPlaylistsStoreBase.updatePlaylists');
     try {
-      return super.updataPlaylists(myPlaylists, subscribedPlaylists);
+      return super.updatePlaylists(myPlaylists, subscribedPlaylists);
     } finally {
       _$UserPlaylistsStoreBaseActionController.endAction(_$actionInfo);
     }
