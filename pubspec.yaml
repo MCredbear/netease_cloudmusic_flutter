@@ -39,6 +39,8 @@ dependencies:
   dio_http_cache: ^0.3.0  
   path_provider: ^2.0.8 
   cached_network_image: ^3.2.0
+  assets_audio_player: any
+  #assets_audio_player_web: ^3.0.4+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

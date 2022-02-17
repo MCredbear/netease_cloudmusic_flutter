@@ -11,7 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:mobx/mobx.dart';
 
 import 'linux_api.dart';
-import 'recent_songs_store.dart';
+import '../stores/recent_songs_store.dart';
 
 Future<void> recordRecentSong({String limit = "300"}) async {
   String postdata =

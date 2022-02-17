@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:assets_audio_player_web/assets_audio_player_web.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'CustomTestButton.dart';
 import 'linuxapi/linux_api.dart';
 import 'linuxapi/login.dart';
 import 'linuxapi/user_account.dart';
-import 'linuxapi/user_profile_store.dart';
+import 'stores/user_profile_store.dart';
 import 'linuxapi/record_recent_song.dart';
-import 'linuxapi/recent_songs_store.dart';
+import 'stores/recent_songs_store.dart';
 import 'linuxapi/user_playlist.dart';
-import 'linuxapi/user_playlists_store.dart';
+import 'stores/user_playlists_store.dart';
+import 'linuxapi/song_url.dart';
 
 import 'login_page.dart';
 
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    userAccount();
+    userAccount().then((_) => userPlaylist());
   }
 
   @override
@@ -168,6 +171,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const Divider(
+            indent: 16,
+            endIndent: 16,
             thickness: 1,
           ),
           Padding(
@@ -196,18 +201,14 @@ class _HomePageState extends State<HomePage> {
                     height: 0,
                     thickness: 1,
                   ),
-                  const SizedBox(
-                    height: 4,
-                  ),
                   const RecentSongsListView(),
-                  const SizedBox(
-                    height: 4,
-                  ),
                 ],
               ),
             ),
           ),
           const Divider(
+            indent: 16,
+            endIndent: 16,
             thickness: 1,
           ),
           Padding(
@@ -225,7 +226,9 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(color: Colors.white70),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          userPlaylist();
+                        },
                         icon: const Icon(Icons.list),
                         splashRadius: 20,
                         color: Colors.white70,
@@ -297,7 +300,6 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
   @override
   void initState() {
     super.initState();
-    userPlaylist();
   }
 
   @override
@@ -311,7 +313,9 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          borderRadius: (index == userPlaylistsStore.myPlaylists.length - 1)
+              ? const BorderRadius.vertical(bottom: Radius.circular(4))
+              : const BorderRadius.all(Radius.zero),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -394,11 +398,14 @@ class _SubscribedPlaylistListViewState
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: userPlaylistsStore.myPlaylists.length,
+        itemCount: userPlaylistsStore.subscribedPlaylists.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
-          borderRadius: const BorderRadius.all(Radius.circular(4)),
+          borderRadius:
+              (index == userPlaylistsStore.subscribedPlaylists.length - 1)
+                  ? const BorderRadius.vertical(bottom: Radius.circular(4))
+                  : const BorderRadius.all(Radius.zero),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -486,8 +493,18 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
             ? 5
             : recentSongsStore.recentSongs.length,
         itemBuilder: (context, index) => InkWell(
-          onTap: () {},
+          onTap: () {
+            final player = AssetsAudioPlayer();
+            player.open(Audio.network(
+                "https://m10.music.126.net/20220217003242/6cf75998a64c6a0808b0e361a0a5d73b/ymusic/0252/0559/5358/58f7a986a723406025fdd209a55d1873.mp3"));
+          },
           splashFactory: NoSplash.splashFactory,
+          borderRadius: (index ==
+                  ((recentSongsStore.recentSongs.length > 5)
+                      ? 4
+                      : recentSongsStore.recentSongs.length - 1))
+              ? const BorderRadius.vertical(bottom: Radius.circular(4))
+              : const BorderRadius.all(Radius.zero),
           child: Row(
             children: [
               Padding(

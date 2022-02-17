@@ -9,8 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:mobx/mobx.dart';
 
 import 'linux_api.dart';
-import 'user_profile_store.dart';
-import 'user_playlists_store.dart';
+import '../stores/user_profile_store.dart';
+import '../stores/user_playlists_store.dart';
 
 Future<void> userPlaylist() async {
   String postdata =
@@ -40,7 +40,6 @@ Future<void> userPlaylist() async {
     ObservableList<Playlist> subscribedPlaylists = ObservableList();
     for (var playlist in playlists) {
       if (playlist['subscribed']) {
-        print("YES");
         subscribedPlaylists.add(Playlist(
             playlist['name'],
             playlist['id'].toString(),
@@ -52,7 +51,6 @@ Future<void> userPlaylist() async {
             playlist['creator']['id'].toString(),
             playlist['creator']['avatarUrl']));
       } else {
-        print("NO");
         myPlaylists.add(Playlist(
             playlist['name'],
             playlist['id'].toString(),
