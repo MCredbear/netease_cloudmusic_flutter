@@ -52,6 +52,7 @@ Future<void> userAccount() async {
       response.data['profile']['backgroundUrl'],
     );
     storeUserProfile.setLoginStatus(true);
+
   } on DioError catch (e) {
     //error
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:netease_cloudmusic_flutter/widgets/CustomTestButton.dart';
 import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
 import 'package:netease_cloudmusic_flutter/api/user_account.dart';
@@ -306,7 +307,7 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
-          borderRadius: (index == userPlaylistsStore.myPlaylists.length - 1)
+          borderRadius: (index == storeUserPlaylists.myPlaylists.length - 1)
               ? const BorderRadius.vertical(bottom: Radius.circular(4))
               : const BorderRadius.all(Radius.zero),
           child: Row(
@@ -391,12 +392,12 @@ class _SubscribedPlaylistListViewState
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: storeUserPlaylists.myPlaylists.length,
+        itemCount: storeUserPlaylists.subscribedPlaylists.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {},
           splashFactory: NoSplash.splashFactory,
           borderRadius:
-              (index == userPlaylistsStore.subscribedPlaylists.length - 1)
+              (index == storeUserPlaylists.subscribedPlaylists.length - 1)
                   ? const BorderRadius.vertical(bottom: Radius.circular(4))
                   : const BorderRadius.all(Radius.zero),
           child: Row(
@@ -487,15 +488,13 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
             : storeRecentSongs.recentSongs.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            final player = AssetsAudioPlayer();
-            player.open(Audio.network(
-                "https://m10.music.126.net/20220217003242/6cf75998a64c6a0808b0e361a0a5d73b/ymusic/0252/0559/5358/58f7a986a723406025fdd209a55d1873.mp3"));
+
           },
           splashFactory: NoSplash.splashFactory,
           borderRadius: (index ==
-                  ((recentSongsStore.recentSongs.length > 5)
+                  ((storeRecentSongs.recentSongs.length > 5)
                       ? 4
-                      : recentSongsStore.recentSongs.length - 1))
+                      : storeRecentSongs.recentSongs.length - 1))
               ? const BorderRadius.vertical(bottom: Radius.circular(4))
               : const BorderRadius.all(Radius.zero),
           child: Row(
@@ -570,7 +569,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       userAccount();
     });
   }

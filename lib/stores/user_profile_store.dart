@@ -20,13 +20,13 @@ abstract class UserProfileStoreBase with Store {
   String backgroundUrl = '';
 
   @action
-  void setLoginStatus(bool loginStatus) => loginStatus = loginStatus;
+  void setLoginStatus(bool loginStatus) => this.loginStatus = loginStatus;
   @action
-  setID(String id) => id = id;
+  void setID(String id) => this.id = id;
   @action
-  void setNickname(String nickname) => nickname = nickname;
+  void setNickname(String nickname) => this.nickname = nickname;
   @action
-  void setAvatarUrl(String avatarUrl) => avatarUrl = avatarUrl;
+  void setAvatarUrl(String avatarUrl) => this.avatarUrl = avatarUrl;
   @action
-  void setBackgroundUrl(String backgroundUrl) => backgroundUrl = backgroundUrl;
+  void setBackgroundUrl(String backgroundUrl) => this.backgroundUrl = backgroundUrl;
 }

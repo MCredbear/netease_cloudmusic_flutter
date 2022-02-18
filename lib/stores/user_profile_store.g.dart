@@ -99,7 +99,7 @@ mixin _$UserProfileStore on UserProfileStoreBase, Store {
   }
 
   @override
-  dynamic setID(String id) {
+  void setID(String id) {
     final _$actionInfo = _$UserProfileStoreBaseActionController.startAction(
         name: 'UserProfileStoreBase.setID');
     try {

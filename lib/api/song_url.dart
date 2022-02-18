@@ -6,27 +6,41 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:mobx/mobx.dart';
 
 import 'linux_api.dart';
 
 Future<String> songUrl(String id) async {
-  String postdata =
-      '{"method":"POST","url":"https://interface3.music.163.com/api/song/enhance/player/url","params":{"ids":"[$id]","br":999000}}';
-  postdata = linuxAPI(postdata);
+  String postdata = '''
+    {
+    "method":"POST",
+    "url":"https://interface3.music.163.com/api/song/enhance/player/url",
+    "params":{
+      "ids":"[$id]",
+      "br":999000
+      }
+    }
+  ''';
+  postdata = neLinuxAPI(postdata);
+
   Directory appDocDir = await getApplicationDocumentsDirectory();
+  
   PersistCookieJar cookie = PersistCookieJar(
       ignoreExpires: true,
       storage: FileStorage(appDocDir.path + "/../cache/cookies"));
   Dio dio = Dio(BaseOptions(
       contentType: "application/x-www-form-urlencoded",
       responseType: ResponseType.json));
-  dio.interceptors.add(CookieManager(cookie));
   dio.interceptors.add(
-      DioCacheManager(CacheConfig(defaultMaxAge: const Duration(days: 114)))
-          .interceptor);
+    CookieManager(cookie)
+  );
+  dio.interceptors.add(
+      DioCacheManager(
+        CacheConfig(defaultMaxAge: const Duration(days: 114)),
+      ).interceptor,
+  );
   Response response;
   try {
     response = await dio.post("https://music.163.com/api/linux/forward",
@@ -42,7 +56,10 @@ Future<String> songUrl(String id) async {
     print(url);
     return url;
   } on DioError catch (e) {
-    //error
+    if (kDebugMode) {
+      print(e);
+    }
     return '';
+    //error
   }
 }
