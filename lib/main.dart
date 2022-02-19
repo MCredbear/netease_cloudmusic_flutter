@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:netease_cloudmusic_flutter/api/song_url.dart';
 import 'package:netease_cloudmusic_flutter/widgets/CustomTestButton.dart';
 import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
 import 'package:netease_cloudmusic_flutter/api/user_account.dart';
@@ -30,6 +31,8 @@ class App extends StatelessWidget {
   }
 }
 
+final player = AssetsAudioPlayer();
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -43,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     userAccount().then((_) => userPlaylist());
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -487,7 +491,23 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
             ? 5
             : storeRecentSongs.recentSongs.length,
         itemBuilder: (context, index) => InkWell(
-          onTap: () {
+          onTap: () async {
+            player.pause();
+            print(await songUrl(storeRecentSongs.recentSongs[index].id));
+            if (await songUrl(storeRecentSongs.recentSongs[index].id) != '') 
+            try {
+              await player.open(Audio.network(await songUrl(storeRecentSongs.recentSongs[index].id),
+                                              metas: Metas(title: storeRecentSongs.recentSongs[index].name,
+                                                           artist: storeRecentSongs.recentSongs[index].combinedArtistsName(),
+                                                           image: MetasImage.network(storeRecentSongs.recentSongs[index].coverUrl)),
+                                              cached: true),
+                                showNotification: true,
+                                );
+
+            } catch (t) {
+              
+            }
+            else print("被网易云ban了");
 
           },
           splashFactory: NoSplash.splashFactory,

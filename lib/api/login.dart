@@ -7,6 +7,8 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
+import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
+import 'package:netease_cloudmusic_flutter/api/user_playlist.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
@@ -54,13 +56,8 @@ Future<void> loginCellphonePassword(String cellphone, String password) async {
       "https://music.163.com/api/linux/forward",
       data: postData,
     );
-    // to get user info offline in the future
-    userAccount();
-    /*    
-    loginprofile.setNickname(response.data['profile']['nickname']);
-    loginprofile.setAvatarUrl(response.data['profile']['avatarUrl']);
-    loginprofile.setBackgroundUrl(response.data['profile']['backgroundUrl']);
-    loginprofile.setLogined(true);*/
+    //用userAccount()而不是直接在这里给storeUserProfile赋值，这样就能缓存数据（总不可能每次获取用户信息都登录一次）
+    userAccount().then((_) => recordRecentSong()).then((_) => userPlaylist());
   } on DioError catch (e) {
     if (kDebugMode) {
       print(e);

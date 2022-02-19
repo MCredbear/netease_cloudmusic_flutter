@@ -2,6 +2,8 @@
 
 import 'package:mobx/mobx.dart';
 
+import 'song.dart';
+
 part 'recent_songs_store.g.dart';
 
 final RecentSongsStore storeRecentSongs = RecentSongsStore();
@@ -20,38 +22,4 @@ abstract class RecentSongsStoreBase with Store {
 
   @action
   void clearRecentSongs() => recentSongs.clear();
-}
-
-class Song {
-  String name;
-  String id;
-  ObservableList alias;
-  ObservableList<Artist> artists;
-  String combinedArtistsName() {
-    String text = artists[0].name;
-    for (int i = 1; i < artists.length; i++) {
-      text += "/" + artists[i].name;
-    }
-    return text;
-  }
-
-  String coverUrl;
-  Song(
-    this.name,
-    this.id,
-    this.alias,
-    this.artists,
-    this.coverUrl,
-  );
-}
-
-class Artist {
-  String name;
-  String id;
-  ObservableList alias;
-  Artist(
-    this.name,
-    this.id,
-    this.alias,
-  );
 }

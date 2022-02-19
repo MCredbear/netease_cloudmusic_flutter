@@ -9,6 +9,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:mobx/mobx.dart';
 
+import '../stores/artitst.dart';
+import '../stores/song.dart';
 import 'linux_api.dart';
 
 Future<void> recordRecentSong({String limit = "300"}) async {
@@ -75,7 +77,7 @@ Future<void> recordRecentSong({String limit = "300"}) async {
       alias_.add(data['tns'][0]); //我就不信这还能有俩值
     }
     _recentSongs.add(Song(song['data']['name'], song['data']['id'].toString(),
-        alias_, artists_, song['data']['al']['picUrl']));
+        alias_, artists_, song['data']['al']['picUrl'].replaceFirst("http", "https"))); //这里的Url默认是http而不是https，申必，，，
   }
   storeRecentSongs.updateRecentSongs(_recentSongs);
 }

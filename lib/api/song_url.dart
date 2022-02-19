@@ -46,14 +46,12 @@ Future<String> songUrl(String id) async {
     response = await dio.post("https://music.163.com/api/linux/forward",
         data: postdata,
         options:
-            buildCacheOptions(const Duration(days: 114), forceRefresh: true));
+            buildCacheOptions(const Duration(days: 114))); //这个得缓存，多次获取会被网易云ban
     var json =
         jsonDecode(response.data); //不知道为啥，这个API设置了response type为json还是会返回text
-    //String url = json['data'][0]['url'] ?? '';
-    String url =
-        "http://m10.music.126.net/20220217003242/6cf75998a64c6a0808b0e361a0a5d73b/ymusic/0252/0559/5358/58f7a986a723406025fdd209a55d1873.mp3";
-    url = url.replaceFirst("http", "https");
-    print(url);
+    if (json['code'] == 500) return ''; //被网易云ban了
+    String url = json['data'][0]['url'] ?? '';
+    url = url.replaceFirst("http", "https"); //这里的Url默认是http而不是https，申必，，，
     return url;
   } on DioError catch (e) {
     if (kDebugMode) {
