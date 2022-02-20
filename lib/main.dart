@@ -47,7 +47,6 @@ class _HomePageState extends State<HomePage> {
     userAccount().then((_) => userPlaylist());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -494,21 +493,23 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
           onTap: () async {
             player.pause();
             print(await songUrl(storeRecentSongs.recentSongs[index].id));
-            if (await songUrl(storeRecentSongs.recentSongs[index].id) != '') 
-            try {
-              await player.open(Audio.network(await songUrl(storeRecentSongs.recentSongs[index].id),
-                                              metas: Metas(title: storeRecentSongs.recentSongs[index].name,
-                                                           artist: storeRecentSongs.recentSongs[index].combinedArtistsName(),
-                                                           image: MetasImage.network(storeRecentSongs.recentSongs[index].coverUrl)),
-                                              cached: true),
-                                showNotification: true,
-                                );
-
-            } catch (t) {
-              
-            }
-            else print("被网易云ban了");
-
+            if (await songUrl(storeRecentSongs.recentSongs[index].id) != '')
+              try {
+                await player.open(
+                  Audio.network(
+                      await songUrl(storeRecentSongs.recentSongs[index].id),
+                      metas: Metas(
+                          title: storeRecentSongs.recentSongs[index].name,
+                          artist: storeRecentSongs.recentSongs[index]
+                              .combinedArtistsName(),
+                          image: MetasImage.network(
+                              storeRecentSongs.recentSongs[index].coverUrl)),
+                      cached: true),
+                  showNotification: true,
+                );
+              } catch (t) {}
+            else
+              print("被网易云ban了");
           },
           splashFactory: NoSplash.splashFactory,
           borderRadius: (index ==
@@ -539,34 +540,24 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Observer(
-                          builder: (_) => Text(
-                            storeRecentSongs.recentSongs[index].name,
-                            textScaleFactor: 1.2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Expanded(
-                          child: Observer(
-                            builder: (_) => (storeRecentSongs
-                                    .recentSongs[index].alias.isNotEmpty)
-                                ? Text(
-                                    "  (" +
-                                        storeRecentSongs
-                                            .recentSongs[index].alias[0] +
-                                        ")",
-                                    textScaleFactor: 1.2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        const TextStyle(color: Colors.white54),
-                                  )
-                                : Container(),
-                          ),
-                        ),
-                      ],
+                    Observer(
+                      builder: (_) => RichText(
+                          textScaleFactor: 1.2,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: storeRecentSongs.recentSongs[index].name),
+                            TextSpan(
+                              text: (storeRecentSongs
+                                      .recentSongs[index].alias.isNotEmpty)
+                                  ? "  (" +
+                                      storeRecentSongs
+                                          .recentSongs[index].alias[0] +
+                                      ")"
+                                  : "",
+                              style: const TextStyle(color: Colors.white54),
+                            )
+                          ])),
                     ),
                     Observer(
                         builder: (_) => Text(
