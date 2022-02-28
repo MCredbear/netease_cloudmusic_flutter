@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
 import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
 import 'package:netease_cloudmusic_flutter/widgets/recent_songs_list_view.dart';
 
@@ -17,7 +16,6 @@ class _RecentSongPageState extends State<RecentSongPage>
   @override
   void initState() {
     super.initState();
-    recordRecentSong();
     _tabController = TabController(length: 2, vsync: this);
   }
 
