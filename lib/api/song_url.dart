@@ -26,27 +26,25 @@ Future<String> songUrl(String id) async {
   postdata = neLinuxAPI(postdata);
 
   Directory appDocDir = await getApplicationDocumentsDirectory();
-  
+
   PersistCookieJar cookie = PersistCookieJar(
       ignoreExpires: true,
       storage: FileStorage(appDocDir.path + "/../cache/cookies"));
   Dio dio = Dio(BaseOptions(
       contentType: "application/x-www-form-urlencoded",
       responseType: ResponseType.json));
+  dio.interceptors.add(CookieManager(cookie));
   dio.interceptors.add(
-    CookieManager(cookie)
-  );
-  dio.interceptors.add(
-      DioCacheManager(
-        CacheConfig(defaultMaxAge: const Duration(days: 114)),
-      ).interceptor,
+    DioCacheManager(
+      CacheConfig(defaultMaxAge: const Duration(minutes: 2)),
+    ).interceptor,
   );
   Response response;
   try {
     response = await dio.post("https://music.163.com/api/linux/forward",
         data: postdata,
-        options:
-            buildCacheOptions(const Duration(days: 114))); //这个得缓存，多次获取会被网易云ban
+        options: buildCacheOptions(const Duration(minutes: 2),
+            maxStale: const Duration(days: 114))); //这个得缓存，多次获取会被网易云ban
     var json =
         jsonDecode(response.data); //不知道为啥，这个API设置了response type为json还是会返回text
     if (json['code'] == 500) return ''; //被网易云ban了

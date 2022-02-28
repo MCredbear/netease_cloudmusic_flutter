@@ -2,6 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
 import 'package:netease_cloudmusic_flutter/api/song_url.dart';
 import 'package:netease_cloudmusic_flutter/main.dart';
 import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
@@ -27,6 +28,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
   @override
   void initState() {
     super.initState();
+    recordRecentSong();
   }
 
   @override
