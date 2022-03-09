@@ -2,33 +2,32 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
+import 'package:netease_cloudmusic_flutter/api/playlist_detail.dart';
 import 'package:netease_cloudmusic_flutter/api/song_url.dart';
 import 'package:netease_cloudmusic_flutter/main.dart';
-import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
+import 'package:netease_cloudmusic_flutter/stores/playlist_songs_store.dart';
 
-class RecentSongsListView extends StatefulWidget {
-  const RecentSongsListView({
+class PlaylistSongsListView extends StatefulWidget {
+  const PlaylistSongsListView({
     Key? key,
-    required this.count,
     required this.physics,
     required this.shrinkWrap,
   }) : super(key: key);
 
   // ignore: prefer_typing_uninitialized_variables
-  final count;
   final ScrollPhysics physics;
   final bool shrinkWrap;
 
   @override
-  State<RecentSongsListView> createState() => _RecentSongsListViewState();
+  State<PlaylistSongsListView> createState() => _PlaylistSongsListViewState();
 }
 
-class _RecentSongsListViewState extends State<RecentSongsListView> {
+class _PlaylistSongsListViewState extends State<PlaylistSongsListView> {
   @override
   void initState() {
     super.initState();
-    recordRecentSong();
+    storePlaylistSongs.clearPlaylistSongs();
+    platlistDetail(storePlaylistSongs.id);
   }
 
   @override
@@ -37,21 +36,22 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
       builder: (_) => ListView.builder(
         physics: widget.physics,
         shrinkWrap: widget.shrinkWrap,
-        itemCount: widget.count,
+        itemCount: storePlaylistSongs.playlistSongs.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () async {
             player.pause();
-            if (await songUrl(storeRecentSongs.recentSongs[index].id) != '') {
+            if (await songUrl(storePlaylistSongs.playlistSongs[index].id) !=
+                '') {
               try {
                 await player.open(
                   Audio.network(
-                      await songUrl(storeRecentSongs.recentSongs[index].id),
+                      await songUrl(storePlaylistSongs.playlistSongs[index].id),
                       metas: Metas(
-                          title: storeRecentSongs.recentSongs[index].name,
-                          artist: storeRecentSongs.recentSongs[index]
+                          title: storePlaylistSongs.playlistSongs[index].name,
+                          artist: storePlaylistSongs.playlistSongs[index]
                               .combinedArtistsName(),
-                          image: MetasImage.network(storeRecentSongs
-                              .recentSongs[index].album.coverUrl)),
+                          image: MetasImage.network(storePlaylistSongs
+                              .playlistSongs[index].album.coverUrl)),
                       cached: true),
                   showNotification: true,
                 );
@@ -62,9 +62,9 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
           },
           splashFactory: NoSplash.splashFactory,
           borderRadius: (index ==
-                  ((storeRecentSongs.recentSongs.length > 5)
+                  ((storePlaylistSongs.playlistSongs.length > 5)
                       ? 4
-                      : storeRecentSongs.recentSongs.length - 1))
+                      : storePlaylistSongs.playlistSongs.length - 1))
               ? const BorderRadius.vertical(bottom: Radius.circular(4))
               : const BorderRadius.all(Radius.zero),
           child: Row(
@@ -76,8 +76,8 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                   clipBehavior: Clip.antiAlias,
                   child: Observer(
                     builder: (_) => CachedNetworkImage(
-                      imageUrl:
-                          storeRecentSongs.recentSongs[index].album.coverUrl,
+                      imageUrl: storePlaylistSongs
+                          .playlistSongs[index].album.coverUrl,
                       fit: BoxFit.fill,
                       width: 40,
                       height: 40,
@@ -96,13 +96,14 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                           overflow: TextOverflow.ellipsis,
                           text: TextSpan(children: [
                             TextSpan(
-                                text: storeRecentSongs.recentSongs[index].name),
+                                text: storePlaylistSongs
+                                    .playlistSongs[index].name),
                             TextSpan(
-                              text: (storeRecentSongs
-                                      .recentSongs[index].alias.isNotEmpty)
+                              text: (storePlaylistSongs
+                                      .playlistSongs[index].alias.isNotEmpty)
                                   ? "  (" +
-                                      storeRecentSongs
-                                          .recentSongs[index].alias[0] +
+                                      storePlaylistSongs
+                                          .playlistSongs[index].alias[0] +
                                       ")"
                                   : "",
                               style: const TextStyle(color: Colors.white54),
@@ -111,7 +112,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                     ),
                     Observer(
                         builder: (_) => Text(
-                              storeRecentSongs.recentSongs[index]
+                              storePlaylistSongs.playlistSongs[index]
                                   .combinedArtistsName(),
                               overflow: TextOverflow.ellipsis,
                             )),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:netease_cloudmusic_flutter/playlist_songs_page.dart';
 import 'package:netease_cloudmusic_flutter/recent_songs_page.dart';
+import 'package:netease_cloudmusic_flutter/stores/playlist_songs_store.dart';
 import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
 import 'package:netease_cloudmusic_flutter/widgets/CustomTestButton.dart';
 import 'package:netease_cloudmusic_flutter/api/user_account.dart';
@@ -319,7 +321,13 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: storeUserPlaylists.myPlaylists.length,
         itemBuilder: (context, index) => InkWell(
-          onTap: () {},
+          onTap: () {
+            storePlaylistSongs.id = storeUserPlaylists.myPlaylists[index].id;
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PlaylistSongPage()));
+          },
           splashFactory: NoSplash.splashFactory,
           borderRadius: (index == storeUserPlaylists.myPlaylists.length - 1)
               ? const BorderRadius.vertical(bottom: Radius.circular(4))
@@ -408,7 +416,14 @@ class _SubscribedPlaylistListViewState
         physics: const NeverScrollableScrollPhysics(),
         itemCount: storeUserPlaylists.subscribedPlaylists.length,
         itemBuilder: (context, index) => InkWell(
-          onTap: () {},
+          onTap: () {
+            storePlaylistSongs.id =
+                storeUserPlaylists.subscribedPlaylists[index].id;
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PlaylistSongPage()));
+          },
           splashFactory: NoSplash.splashFactory,
           borderRadius:
               (index == storeUserPlaylists.subscribedPlaylists.length - 1)
