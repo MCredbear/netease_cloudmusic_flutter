@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:netease_cloudmusic_flutter/stores/album.dart';
 import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -50,6 +51,7 @@ Future<void> recordRecentSong({String limit = "300"}) async {
   ObservableList<Song> _recentSongs = ObservableList();
   List songs = response.data['data']['list'];
   for (var song in songs) {
+    //读取歌手
     List artists = song['data']['ar'];
     ObservableList<Artist> artists_ = ObservableList();
     for (var artist in artists) {
@@ -67,6 +69,7 @@ Future<void> recordRecentSong({String limit = "300"}) async {
       artists_
           .add(Artist(artist['name'], artist['id'].toString(), artist_alias_));
     }
+    //读取别称
     List alias = song['data']['alia'];
     ObservableList alias_ = ObservableList();
     for (var alia in alias) {
@@ -76,8 +79,17 @@ Future<void> recordRecentSong({String limit = "300"}) async {
     if (data.containsKey('tns')) {
       alias_.add(data['tns'][0]); //我就不信这还能有俩值
     }
+    //读取专辑
+    Map album = song['data']['al'];
+    ObservableList albumAlias = ObservableList();
+    for (var alia in album['tns']) {
+      albumAlias.add(alia);
+    }
+    Album album_ = Album(album['name'], album['id'].toString(),
+        album['picUrl'].replaceFirst("http", "https"), albumAlias);
+
     _recentSongs.add(Song(song['data']['name'], song['data']['id'].toString(),
-        alias_, artists_, song['data']['al']['picUrl'].replaceFirst("http", "https"))); //这里的Url默认是http而不是https，申必，，，
+        alias_, artists_, album_)); //这里的Url默认是http而不是https，申必，，，
   }
   storeRecentSongs.updateRecentSongs(_recentSongs);
 }

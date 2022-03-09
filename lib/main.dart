@@ -201,12 +201,14 @@ class _HomePageState extends State<HomePage> {
                     height: 0,
                     thickness: 1,
                   ),
-                  RecentSongsListView(
-                    count: (storeRecentSongs.recentSongs.length >= 5)
-                        ? 5
-                        : storeRecentSongs.recentSongs.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
+                  Observer(
+                    builder: (_) => RecentSongsListView(
+                      count: (storeRecentSongs.recentSongs.length >= 5)
+                          ? 5
+                          : storeRecentSongs.recentSongs.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                    ),
                   ),
                 ],
               ),

@@ -1,6 +1,6 @@
-
 import 'package:mobx/mobx.dart';
 
+import 'album.dart';
 import 'artitst.dart';
 
 class Song {
@@ -16,12 +16,13 @@ class Song {
     return text;
   }
 
-  String coverUrl;
+  Album album;
+
   Song(
     this.name,
     this.id,
     this.alias,
     this.artists,
-    this.coverUrl,
+    this.album,
   );
 }
