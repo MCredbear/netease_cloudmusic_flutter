@@ -323,6 +323,8 @@ class _MyPlaylistListViewState extends State<MyPlaylistListView> {
         itemBuilder: (context, index) => InkWell(
           onTap: () {
             storePlaylistSongs.id = storeUserPlaylists.myPlaylists[index].id;
+            storePlaylistSongs
+                .setName(storeUserPlaylists.myPlaylists[index].name);
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -419,6 +421,8 @@ class _SubscribedPlaylistListViewState
           onTap: () {
             storePlaylistSongs.id =
                 storeUserPlaylists.subscribedPlaylists[index].id;
+            storePlaylistSongs
+                .setName(storeUserPlaylists.subscribedPlaylists[index].name);
             Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -9,6 +9,21 @@ part of 'playlist_songs_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PlaylistSongsStore on PlaylistSongsStoreBase, Store {
+  final _$nameAtom = Atom(name: 'PlaylistSongsStoreBase.name');
+
+  @override
+  String get name {
+    _$nameAtom.reportRead();
+    return super.name;
+  }
+
+  @override
+  set name(String value) {
+    _$nameAtom.reportWrite(value, super.name, () {
+      super.name = value;
+    });
+  }
+
   final _$playlistSongsAtom =
       Atom(name: 'PlaylistSongsStoreBase.playlistSongs');
 
@@ -27,6 +42,17 @@ mixin _$PlaylistSongsStore on PlaylistSongsStoreBase, Store {
 
   final _$PlaylistSongsStoreBaseActionController =
       ActionController(name: 'PlaylistSongsStoreBase');
+
+  @override
+  void setName(String name) {
+    final _$actionInfo = _$PlaylistSongsStoreBaseActionController.startAction(
+        name: 'PlaylistSongsStoreBase.setName');
+    try {
+      return super.setName(name);
+    } finally {
+      _$PlaylistSongsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void updatePlaylistSongs(ObservableList<Song> songs) {
@@ -64,6 +90,7 @@ mixin _$PlaylistSongsStore on PlaylistSongsStoreBase, Store {
   @override
   String toString() {
     return '''
+name: ${name},
 playlistSongs: ${playlistSongs}
     ''';
   }

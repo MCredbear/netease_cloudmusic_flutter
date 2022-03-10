@@ -2,6 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloudmusic_flutter/api/record_recent_song.dart';
 import 'package:netease_cloudmusic_flutter/api/song_url.dart';
 import 'package:netease_cloudmusic_flutter/main.dart';
@@ -57,7 +58,7 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
                 );
               } catch (t) {}
             } else {
-              print("被网易云ban了");
+              Fluttertoast.showToast(msg: "被网易云ban了");
             }
           },
           splashFactory: NoSplash.splashFactory,

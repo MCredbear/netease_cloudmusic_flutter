@@ -14,6 +14,12 @@ abstract class PlaylistSongsStoreBase with Store {
   String id = "";
 
   @observable
+  String name = "歌单";
+
+  @action
+  void setName(String name) => this.name = name;
+
+  @observable
   ObservableList<Song> playlistSongs = ObservableList();
 
   @action
