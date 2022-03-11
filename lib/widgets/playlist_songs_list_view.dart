@@ -1,11 +1,8 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloudmusic_flutter/api/playlist_detail.dart';
-import 'package:netease_cloudmusic_flutter/api/song_url.dart';
-import 'package:netease_cloudmusic_flutter/main.dart';
+import 'package:netease_cloudmusic_flutter/player.dart';
 import 'package:netease_cloudmusic_flutter/stores/playlist_songs_store.dart';
 
 class PlaylistSongsListView extends StatefulWidget {
@@ -40,26 +37,29 @@ class _PlaylistSongsListViewState extends State<PlaylistSongsListView> {
         itemCount: storePlaylistSongs.playlistSongs.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () async {
-            player.pause();
-            if (await songUrl(storePlaylistSongs.playlistSongs[index].id) !=
-                '') {
-              try {
-                await player.open(
-                  Audio.network(
-                      await songUrl(storePlaylistSongs.playlistSongs[index].id),
-                      metas: Metas(
-                          title: storePlaylistSongs.playlistSongs[index].name,
-                          artist: storePlaylistSongs.playlistSongs[index]
-                              .combinedArtistsName(),
-                          image: MetasImage.network(storePlaylistSongs
-                              .playlistSongs[index].album.coverUrl)),
-                      cached: true),
-                  showNotification: true,
-                );
-              } catch (t) {}
-            } else {
-              Fluttertoast.showToast(msg: "被网易云ban了");
-            }
+            play(storePlaylistSongs.playlistSongs, index);
+            // player.pause();
+            // if (await songUrl(storePlaylistSongs.playlistSongs[index].id) !=
+            //     '') {
+            //   try {
+            //     await player.open(
+            //       Audio.network(
+            //           await songUrl(storePlaylistSongs.playlistSongs[index].id),
+            //           metas: Metas(
+            //               title: storePlaylistSongs.playlistSongs[index].name,
+            //               artist: storePlaylistSongs.playlistSongs[index]
+            //                   .combinedArtistsName(),
+            //               image: MetasImage.network(storePlaylistSongs
+            //                   .playlistSongs[index].album.coverUrl),
+            //               album: storePlaylistSongs
+            //                   .playlistSongs[index].album.name),
+            //           cached: true),
+            //       showNotification: true,
+            //     );
+            //   } catch (t) {}
+            // } else {
+            //   Fluttertoast.showToast(msg: "被网易云ban了");
+            // }
           },
           splashFactory: NoSplash.splashFactory,
           borderRadius: (index ==

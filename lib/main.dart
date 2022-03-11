@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:netease_cloudmusic_flutter/playlist_songs_page.dart';
 import 'package:netease_cloudmusic_flutter/recent_songs_page.dart';
 import 'package:netease_cloudmusic_flutter/stores/playlist_songs_store.dart';
@@ -32,8 +31,6 @@ class App extends StatelessWidget {
     );
   }
 }
-
-final player = AssetsAudioPlayer();
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
