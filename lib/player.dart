@@ -4,12 +4,15 @@ import 'package:mobx/mobx.dart';
 import 'stores/song.dart';
 import 'stores/player_store.dart';
 
-final player = AssetsAudioPlayer();
+final Player player = Player();
 
-Future<void> play(ObservableList<Song> songs, int index) async {
-  await player.pause();
-  await storePlayer.updatePlaylist(songs);
-  await player.open(storePlayer.playerPlaylist,
-      loopMode: LoopMode.single, showNotification: true);
-  player.playlistPlayAtIndex(index);
+class Player {
+  final _player = AssetsAudioPlayer();
+  Future<void> play(ObservableList<Song> songs, int index) async {
+    await _player.pause();
+    await storePlayer.updatePlaylist(songs);
+    await _player.open(storePlayer.playerPlaylist,
+        loopMode: LoopMode.single, showNotification: true);
+    _player.playlistPlayAtIndex(index);
+  }
 }

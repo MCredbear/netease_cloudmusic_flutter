@@ -37,7 +37,7 @@ class _PlaylistSongsListViewState extends State<PlaylistSongsListView> {
         itemCount: storePlaylistSongs.playlistSongs.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () async {
-            play(storePlaylistSongs.playlistSongs, index);
+            player.play(storePlaylistSongs.playlistSongs, index);
             // player.pause();
             // if (await songUrl(storePlaylistSongs.playlistSongs[index].id) !=
             //     '') {
