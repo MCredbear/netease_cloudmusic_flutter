@@ -38,7 +38,9 @@ class _RecentSongsListViewState extends State<RecentSongsListView> {
         itemCount: widget.count,
         itemBuilder: (context, index) => InkWell(
           onTap: () async {
-            player.play(storeRecentSongs.recentSongs, index);
+            player.updatePlaylist(storeRecentSongs.recentSongs);
+            player.play(index);
+
             // player.pause();
             // if (await songUrl(storeRecentSongs.recentSongs[index].id) != '') {
             //   try {
