@@ -13,18 +13,4 @@ abstract class PlayerStoreBase with Store {
 
   @action
   void updatePlaylist(ObservableList<Song> songs) => playlist = songs;
-
-  // List<Audio> audios = [];
-  // for (var song in songs) {
-  //   String _songUrl = await songUrl(song.id);
-  //   if (_songUrl == '') Fluttertoast.showToast(msg: "被网易云ban了");
-  //   audios.add(Audio.network(_songUrl,
-  //       metas: Metas(
-  //           title: song.name,
-  //           artist: song.combinedArtistsName(),
-  //           image: MetasImage.network(song.album.coverUrl),
-  //           album: song.album.name),
-  //       cached: true));
-  // }
-
 }

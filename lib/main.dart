@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:netease_cloudmusic_flutter/id3_editor_page.dart';
 import 'package:netease_cloudmusic_flutter/playlist_songs_page.dart';
 import 'package:netease_cloudmusic_flutter/recent_songs_page.dart';
 import 'package:netease_cloudmusic_flutter/stores/playlist_songs_store.dart';
@@ -10,11 +12,12 @@ import 'package:netease_cloudmusic_flutter/api/user_account.dart';
 import 'package:netease_cloudmusic_flutter/api/user_playlist.dart';
 import 'package:netease_cloudmusic_flutter/stores/user_playlists_store.dart';
 import 'package:netease_cloudmusic_flutter/stores/user_profile_store.dart';
+//import 'package:permission_handler/permission_handler.dart';
 
 import 'login_page.dart';
 import 'widgets/recent_songs_list_view.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const App());
 }
 
@@ -55,8 +58,18 @@ class _HomePageState extends State<HomePage> {
           elevation: 4,
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(),
-            children: const [
-              UserProfileWidget(),
+            children: [
+              const UserProfileWidget(),
+              ListTile(
+                title: const Text(
+                  '歌曲信息编辑器',
+                  textScaleFactor: 1.2,
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ID3EditorPage()));
+                },
+              )
             ],
           ),
         ),

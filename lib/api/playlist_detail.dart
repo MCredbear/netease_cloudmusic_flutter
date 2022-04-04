@@ -34,7 +34,7 @@ Future<void> platlistDetail(String id) async {
 
   PersistCookieJar cookie = PersistCookieJar(
     ignoreExpires: true,
-    storage: FileStorage(appDocDir.path + "/../cache/cookies"),
+    storage: FileStorage(appDocDir.path + "/cache/cookies"),
   );
   Dio dio = Dio(
     BaseOptions(contentType: "application/x-www-form-urlencoded"),

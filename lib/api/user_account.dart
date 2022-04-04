@@ -22,7 +22,7 @@ Future<void> userAccount() async {
   Directory appDocDir = await getApplicationDocumentsDirectory();
   PersistCookieJar cookie = PersistCookieJar(
     ignoreExpires: true,
-    storage: FileStorage(appDocDir.path + "/../cache/cookies"),
+    storage: FileStorage(appDocDir.path + "/cache/cookies"),
   );
   Dio dio = Dio(BaseOptions(contentType: "application/x-www-form-urlencoded"));
   dio.interceptors.add(CookieManager(cookie));
@@ -52,7 +52,6 @@ Future<void> userAccount() async {
       response.data['profile']['backgroundUrl'],
     );
     storeUserProfile.setLoginStatus(true);
-
   } on DioError catch (e) {
     //error
   }

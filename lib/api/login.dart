@@ -40,7 +40,7 @@ Future<void> loginCellphonePassword(String cellphone, String password) async {
   Directory appDocDir = await getApplicationDocumentsDirectory();
   PersistCookieJar cookie = PersistCookieJar(
     ignoreExpires: true,
-    storage: FileStorage(appDocDir.path + "/../cache/cookies"),
+    storage: FileStorage(appDocDir.path + "/cache/cookies"),
   );
   cookie.deleteAll();
   Dio dio = Dio(
