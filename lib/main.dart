@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:netease_cloudmusic_flutter/id3_editor_page.dart';
 import 'package:netease_cloudmusic_flutter/playlist_songs_page.dart';
 import 'package:netease_cloudmusic_flutter/recent_songs_page.dart';
+import 'package:netease_cloudmusic_flutter/stores/cached_songs_store.dart';
 import 'package:netease_cloudmusic_flutter/stores/playlist_songs_store.dart';
 import 'package:netease_cloudmusic_flutter/stores/recent_songs_store.dart';
 import 'package:netease_cloudmusic_flutter/widgets/CustomTestButton.dart';
@@ -19,6 +20,7 @@ import 'widgets/recent_songs_list_view.dart';
 
 Future<void> main() async {
   runApp(const App());
+  storeCachedSongs.refreshCachedSongs();
 }
 
 class App extends StatelessWidget {
